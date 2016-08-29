@@ -1,4 +1,4 @@
-package com.epam.hackaton.configuration;
+package com.epam.k.configuration;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

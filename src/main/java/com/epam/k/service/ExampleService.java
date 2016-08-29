@@ -1,12 +1,8 @@
-package com.epam.hackaton.service;
+package com.epam.k.service;
 
 import com.mongodb.client.MongoDatabase;
-import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
-
-import static com.mongodb.client.model.Filters.eq;
 
 @Service
 public class ExampleService extends BaseMongoService {

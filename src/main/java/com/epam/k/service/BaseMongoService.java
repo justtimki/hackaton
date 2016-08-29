@@ -1,4 +1,4 @@
-package com.epam.hackaton.service;
+package com.epam.k.service;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;

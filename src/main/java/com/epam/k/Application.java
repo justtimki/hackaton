@@ -1,4 +1,4 @@
-package com.epam.hackaton;
+package com.epam.k;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
