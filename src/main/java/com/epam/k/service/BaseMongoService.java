@@ -32,6 +32,12 @@ public abstract class BaseMongoService {
 
     public BaseMongoService(MongoDatabase mongoDatabase, String mongoCollectionName) {
         mongoCollection = mongoDatabase.getCollection(mongoCollectionName);
+        if (mongoCollection != null && mongoCollection.count() == 0) {
+            initCollection();
+        }
+    }
+
+    public void initCollection() {
     }
 
     public MongoCollection<Document> getCollection() {
