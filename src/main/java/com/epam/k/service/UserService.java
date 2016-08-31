@@ -7,6 +7,8 @@ import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static com.mongodb.client.model.Filters.eq;
 
 @Service
@@ -27,5 +29,10 @@ public class UserService extends BaseMongoService {
     public User findByUsername(String username) {
         Document document = username == null ? null : mongoCollection.find(eq("username", username.toLowerCase())).first();
         return document == null ? null : new User(document);
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Document> getVacations(Document user) {
+        return user.get("vacations", List.class);
     }
 }
