@@ -24,7 +24,7 @@ import static com.mongodb.client.model.Filters.*;
 public abstract class BaseMongoService {
 
     @Autowired
-    protected MessageSource messageSource;
+    private MessageSource messageSource;
 
     protected MongoCollection<Document> mongoCollection;
 
@@ -55,16 +55,12 @@ public abstract class BaseMongoService {
     }
 
     public void insertMany(List<Document> documents) {
-        logger.info("mass change collection {} insertMany, documentIds {} (BaseMongoService.insertMany)",
-                mongoCollection.getNamespace().getCollectionName(),
-                documents.stream().map(d -> d.get("_id")).collect(Collectors.toList()).toString());
+        logger.info("mass change collection {} insertMany, documentIds {} (BaseMongoService.insertMany)", mongoCollection.getNamespace().getCollectionName(), documents.stream().map(d -> d.get("_id")).collect(Collectors.toList()).toString());
         mongoCollection.insertMany(documents);
     }
 
     public void replaceOne(Document document) {
-        logger.info("change collection {} replaceOne by _id document = {} upsert = true (BaseMongoService.replaceOne)",
-                mongoCollection.getNamespace().getCollectionName(),
-                document);
+        logger.info("change collection {} replaceOne by _id document = {} upsert = true (BaseMongoService.replaceOne)", mongoCollection.getNamespace().getCollectionName(), document);
         mongoCollection.replaceOne(eq("_id", document.get("_id")), document, new UpdateOptions().upsert(true));
     }
 
@@ -101,9 +97,7 @@ public abstract class BaseMongoService {
             ids.add(id);
             writes.add(new ReplaceOneModel<>(new Document("_id", id), doc));
         }
-        logger.info("mass change collection {} bulkReplaceOne ids {} (BaseMongoService.replaceDocuments)",
-                mongoCollection.getNamespace().getCollectionName(),
-                ids);
+        logger.info("mass change collection {} bulkReplaceOne ids {} (BaseMongoService.replaceDocuments)", mongoCollection.getNamespace().getCollectionName(), ids);
         bulkWrite(writes);
     }
 
@@ -158,10 +152,7 @@ public abstract class BaseMongoService {
     }
 
     public void updateOneFieldById(String id, String fieldName, Object value) {
-        logger.info("change collection {} updateOne id {} fieldName {} value {} (BaseMongoService.updateOneFieldById)",
-                mongoCollection.getNamespace().getCollectionName(),
-                id, fieldName, value);
+        logger.info("change collection {} updateOne id {} fieldName {} value {} (BaseMongoService.updateOneFieldById)", mongoCollection.getNamespace().getCollectionName(), id, fieldName, value);
         mongoCollection.updateOne(eq("_id", new ObjectId(id)), new Document("$set", new Document(fieldName, value)));
     }
-
 }

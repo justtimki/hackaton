@@ -1,6 +1,2 @@
 mongodb:
   name: local
-
-spring:
-  freemarker:
-      cache: false
