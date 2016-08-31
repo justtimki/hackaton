@@ -55,12 +55,7 @@ public class User extends Document implements UserDetails {
     private static Set<Role> fillRoles(Collection<Object> authorities, String username) {
         EnumSet<Role> roles = EnumSet.noneOf(Role.class);
         if (authorities != null) {
-            authorities.forEach(role -> {
-                if (role instanceof String)
-                    roles.add(Role.valueOf(role.toString()));
-                else if (role instanceof Role)
-                    roles.add((Role) role);
-            });
+            authorities.forEach(role -> roles.add((Role) role));
         }
 
         if (roles.isEmpty()) {

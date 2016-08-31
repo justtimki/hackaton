@@ -1,10 +1,11 @@
 
 .idea/
 build/
+classes/
 
 .DS_STORE
 
-# Don’t commit the following directories created by pub.
+# Donï¿½t commit the following directories created by pub.
 packages
 pubspec.lock
 .pub
@@ -26,9 +27,7 @@ tmp
 *.js.map
 
 # Include when developing application packages.
-pubspec.lock
 .c9
-.idea/
 .settings/
 *.swo
 modules/.settings
