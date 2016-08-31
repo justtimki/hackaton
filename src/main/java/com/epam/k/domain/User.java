@@ -16,6 +16,10 @@ public class User extends Document implements UserDetails {
 
     private static final Logger logger = LoggerFactory.getLogger(User.class);
 
+    public User(Document src) {
+        super(src);
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public Collection<? extends GrantedAuthority> getAuthorities() {
