@@ -20,7 +20,6 @@ buildscript {
 
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web'
-    compile 'org.springframework.boot:spring-boot-starter-freemarker'
     compile 'org.springframework.boot:spring-boot-starter-security'
     compile 'org.mongodb:mongo-java-driver:3.3.0'
 }
