@@ -2,7 +2,6 @@ package com.epam.k.service;
 
 import com.epam.k.domain.User;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Filters;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
