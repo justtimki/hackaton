@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RegistrationController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String register(Model model) {
+    public String register() {
         return "index";
     }
 }
