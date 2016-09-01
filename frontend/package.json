@@ -27,8 +27,7 @@
     "systemjs": "0.19.27",
     "zone.js": "^0.6.12",
     "angular2-in-memory-web-api": "0.0.17",
-    "bootstrap": "^3.3.6",
-    "uui-framework": "git+https://git.epam.com/epm-uui/uui-framework.git"
+    "bootstrap": "^3.3.6"
   },
   "devDependencies": {
     "concurrently": "^2.2.0",
