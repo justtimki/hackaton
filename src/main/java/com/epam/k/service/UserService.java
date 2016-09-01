@@ -2,8 +2,10 @@ package com.epam.k.service;
 
 import com.epam.k.domain.User;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.IndexOptions;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,9 +22,12 @@ public class UserService extends BaseMongoService {
         super(mongoDatabase, MONGO_COLLECTION);
     }
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public void initCollection() {
-        mongoCollection.createIndex(new Document("username", 1));
+        mongoCollection.createIndex(new Document("username", 1), new IndexOptions().unique(true));
     }
 
     public User findByUsername(String username) {
@@ -33,5 +38,13 @@ public class UserService extends BaseMongoService {
     @SuppressWarnings("unchecked")
     public List<Document> getVacations(Document user) {
         return user.get("vacations", List.class);
+    }
+
+    public void setUsername(Document user, String username) {
+        user.put("username", username);
+    }
+
+    public void setPassword(Document user, String password) {
+        user.put("passwordHash", passwordEncoder.encode(password));
     }
 }
