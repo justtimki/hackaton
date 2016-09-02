@@ -1,4 +1,4 @@
-
+﻿
 .idea/
 build/
 classes/
@@ -15,6 +15,7 @@ pubspec.lock
 .buildlog
 node_modules
 bower_components
+/typings/
 
 # Or broccoli working directory
 tmp

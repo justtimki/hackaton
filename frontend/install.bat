@@ -1,2 +1,2 @@
 @echo off
-git config --global credential.helper wincred && npm install -g grunt-cli && npm install && npm install "git+https://git.epam.com/epm-uui/uui-framework.git" && cd node_modules/uui-framework && npm install && grunt uui && cd ../.. && run.bat
+npm install -g grunt-cli && npm install && cd node_modules && git clone https://git.epam.com/epm-uui/uui-framework.git && cd uui-framework && npm install && grunt uui && cd ../.. && run.bat
