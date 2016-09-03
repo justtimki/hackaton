@@ -1,0 +1,13 @@
+<form #regForm="ngForm" (ngSubmit)="doRegistration(regForm.value)">
+    <label for="username">Username</label>
+    <input type="text" placeholder="username" id="username" name="username" ngModel>
+
+    <label for="password">Password</label>
+    <input type="text" placeholder="password" id="password" name="password" ngModel>
+
+    <button type="submit">Registration</button>
+</form>
+
+<div *ngIf="result">
+    {{ result }}
+</div>

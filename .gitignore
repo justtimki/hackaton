@@ -15,7 +15,7 @@ pubspec.lock
 .buildlog
 node_modules
 bower_components
-/typings/
+typings/
 
 # Or broccoli working directory
 tmp
