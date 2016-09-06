@@ -1,7 +1,6 @@
 "use strict";
 var User = (function () {
-    function User(id, username, password) {
-        this.id = id;
+    function User(username, password) {
         this.username = username;
         this.password = password;
     }

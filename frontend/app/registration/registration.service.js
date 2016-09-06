@@ -10,23 +10,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
-var url_util_1 = require("../utils/url.util");
+var url_util_1 = require('../utils/url.util');
+require('rxjs/add/operator/map');
 require('rxjs/add/operator/toPromise');
+require('rxjs/add/operator/catch');
 var RegistrationService = (function () {
     function RegistrationService(http) {
         this.http = http;
-        this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
+        this.headers = new http_1.Headers({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
     }
     RegistrationService.prototype.register = function (value) {
-        return this.http
-            .post(url_util_1.UrlUtil.REGISTER_ACCOUNT, JSON.stringify({ value: value }), { headers: this.headers })
+        //let body = JSON.stringify({ "username": value.username, "password": value.password });
+        return this.http.post(url_util_1.UrlUtil.REGISTER_ACCOUNT + '?username=' + value.username + '&password=' + value.password, { headers: this.headers })
             .toPromise()
-            .then(function (res) { return res.json().data; })
+            .then(this.extractData)
             .catch(this.handleError);
     };
+    RegistrationService.prototype.extractData = function (res) {
+        var body = res.json();
+        return body.data || {};
+    };
     RegistrationService.prototype.handleError = function (error) {
-        console.error('An error occurred', error); // for demo purposes only
-        return Promise.reject(error.message || error);
+        var errMsg = (error.message) ? error.message :
+            error.status ? error.status + " - " + error.statusText : 'Server error';
+        console.error(errMsg); // better use external log system
+        return Promise.reject(errMsg);
     };
     RegistrationService = __decorate([
         core_1.Injectable(), 
