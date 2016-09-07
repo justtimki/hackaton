@@ -44,6 +44,10 @@ public class UserService extends BaseMongoService {
         user.put("username", username);
     }
 
+    public String getUsername(Document user) {
+        return user.getString("username");
+    }
+
     public void setPassword(Document user, String password) {
         user.put("passwordHash", passwordEncoder.encode(password));
     }
