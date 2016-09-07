@@ -16,8 +16,8 @@ export class RegistrationService {
     constructor(private http: Http) { }
 
     register(value: User): Promise<User> {
-        //let body = JSON.stringify({ "username": value.username, "password": value.password });
-        return this.http.post(UrlUtil.REGISTER_ACCOUNT + '?username=' + value.username + '&password=' + value.password, { headers: this.headers })
+        let body = JSON.stringify({ "username": value.username, "password": value.password });
+        return this.http.post(UrlUtil.REGISTER_ACCOUNT, body, { headers: this.headers })
             .toPromise()
             .then(this.extractData)
             .catch(this.handleError);

@@ -20,8 +20,8 @@ var RegistrationService = (function () {
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
     }
     RegistrationService.prototype.register = function (value) {
-        //let body = JSON.stringify({ "username": value.username, "password": value.password });
-        return this.http.post(url_util_1.UrlUtil.REGISTER_ACCOUNT + '?username=' + value.username + '&password=' + value.password, { headers: this.headers })
+        var body = JSON.stringify({ "username": value.username, "password": value.password });
+        return this.http.post(url_util_1.UrlUtil.REGISTER_ACCOUNT, body, { headers: this.headers })
             .toPromise()
             .then(this.extractData)
             .catch(this.handleError);
