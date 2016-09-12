@@ -5,6 +5,8 @@ import { HttpModule }    from '@angular/http';
 
 import { AppComponent }  from './app.component';
 import { RegistrationFormComponent } from './registration/registration.component';
+import { OAuthService } from "angular2-oauth2/oauth-service";
+
 
 @NgModule({
   imports:      [ 
@@ -13,6 +15,7 @@ import { RegistrationFormComponent } from './registration/registration.component
     HttpModule
 ],
   declarations: [ AppComponent, RegistrationFormComponent ],
-  bootstrap:    [ AppComponent ]
+  bootstrap:    [ AppComponent ],
+  providers:    [ OAuthService ]
 })
 export class AppModule { }

@@ -10,9 +10,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var registration_service_1 = require('./registration.service');
+var oauth_service_1 = require('angular2-oauth2/oauth-service');
 var RegistrationFormComponent = (function () {
-    function RegistrationFormComponent(registrationService) {
+    function RegistrationFormComponent(registrationService, oauthService) {
         this.registrationService = registrationService;
+        this.oauthService = oauthService;
     }
     RegistrationFormComponent.prototype.doRegistration = function (value) {
         this.result = this.registrationService.register(value);
@@ -22,9 +24,9 @@ var RegistrationFormComponent = (function () {
         core_1.Component({
             selector: 'registration-form',
             templateUrl: 'app/registration/registration.template.html',
-            providers: [registration_service_1.RegistrationService]
+            providers: [registration_service_1.RegistrationService],
         }), 
-        __metadata('design:paramtypes', [registration_service_1.RegistrationService])
+        __metadata('design:paramtypes', [registration_service_1.RegistrationService, oauth_service_1.OAuthService])
     ], RegistrationFormComponent);
     return RegistrationFormComponent;
 }());
