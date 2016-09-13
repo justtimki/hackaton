@@ -24,7 +24,7 @@ var RegistrationFormComponent = (function () {
         core_1.Component({
             selector: 'registration-form',
             templateUrl: 'app/registration/registration.template.html',
-            providers: [registration_service_1.RegistrationService],
+            providers: [registration_service_1.RegistrationService]
         }), 
         __metadata('design:paramtypes', [registration_service_1.RegistrationService, oauth_service_1.OAuthService])
     ], RegistrationFormComponent);

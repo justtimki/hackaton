@@ -8,20 +8,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require("@angular/core");
-var registration_component_1 = require("./registration/registration.component");
-var AppComponent = (function () {
-    function AppComponent() {
+var core_1 = require('@angular/core');
+var SidebarComponent = (function () {
+    function SidebarComponent() {
+        //UUI.Sidebar.init({open: true});
     }
-    AppComponent = __decorate([
+    SidebarComponent.prototype.doSomthing = function (value) {
+    };
+    SidebarComponent = __decorate([
         core_1.Component({
-            selector: "app",
-            templateUrl: "app/app.template.html",
-            directives: [registration_component_1.RegistrationFormComponent]
+            selector: 'sidebar',
+            templateUrl: 'app/sidebar/sidebar.template.html'
         }), 
         __metadata('design:paramtypes', [])
-    ], AppComponent);
-    return AppComponent;
+    ], SidebarComponent);
+    return SidebarComponent;
 }());
-exports.AppComponent = AppComponent;
-//# sourceMappingURL=app.component.js.map
+exports.SidebarComponent = SidebarComponent;
+//# sourceMappingURL=sidebar.component.js.map

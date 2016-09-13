@@ -14,6 +14,7 @@ var forms_1 = require('@angular/forms');
 var http_1 = require('@angular/http');
 var app_component_1 = require('./app.component');
 var registration_component_1 = require('./registration/registration.component');
+var sidebar_component_1 = require('./sidebar/sidebar.component');
 var oauth_service_1 = require("angular2-oauth2/oauth-service");
 var AppModule = (function () {
     function AppModule() {
@@ -25,7 +26,7 @@ var AppModule = (function () {
                 forms_1.FormsModule,
                 http_1.HttpModule
             ],
-            declarations: [app_component_1.AppComponent, registration_component_1.RegistrationFormComponent],
+            declarations: [app_component_1.AppComponent, registration_component_1.RegistrationFormComponent, sidebar_component_1.SidebarComponent],
             bootstrap: [app_component_1.AppComponent],
             providers: [oauth_service_1.OAuthService]
         }), 
