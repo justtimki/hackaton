@@ -13,7 +13,8 @@ var vacation_cart_component_1 = require("./feed/vacation/vacation-cart.component
 var registration_component_1 = require("./registration/registration.component");
 var router_1 = require('@angular/router');
 var appRoutes = [
-    { path: '', component: vacation_cart_component_1.VacationCartComponent, useAsDefault: true },
+    { path: '', redirectTo: 'all', pathMatch: 'full' },
+    { path: 'all', component: vacation_cart_component_1.VacationCartComponent, useAsDefault: true },
     { path: 'my', component: registration_component_1.RegistrationFormComponent }
 ];
 var AppComponent = (function () {

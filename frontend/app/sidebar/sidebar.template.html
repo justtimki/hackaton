@@ -1,22 +1,24 @@
 <div class="uui-side-bar">
+    <nav>
     <ul class="sidebar-menu">
-        <li class="active">
-            <a [routerLink]="['']">
+        <li routerLinkActive="active">
+            <a routerLink="all">
                 <i class="fa fa-search"></i>
                 <span>Find Vacation</span>
             </a>
         </li>
-        <li>
-            <a [routerLink]="['my']">
+        <li routerLinkActive="active">
+            <a routerLink="my">
                 <i class="fa fa-compass"></i>
                 <span>My Vacations</span>
             </a>
         </li>
-        <li>
+        <li routerLinkActive="active">
             <a href="javacript:void(0)">
                 <i class="fa fa-camera"></i>
                 <span>Bright Moments</span>
             </a>
         </li>
     </ul>
+    </nav>
 </div>

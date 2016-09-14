@@ -22,9 +22,9 @@ export class SidebarComponent {
     ngAfterViewInit() {
         UUI.Sidebar.init({open: true, animate: true});
 
-        $(".sidebar-menu li").click(function() {
+        /*$(".sidebar-menu li").click(function() {
             $(this).siblings().removeClass("active");
             $(this).addClass("active");
-        });
+        });*/
     }
 }
