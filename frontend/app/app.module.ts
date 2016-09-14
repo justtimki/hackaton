@@ -6,6 +6,7 @@ import { HttpModule }    from '@angular/http';
 import { AppComponent, routing, appRoutingProviders }  from './app.component';
 import { RegistrationFormComponent } from './registration/registration.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { HeaderComponent } from './header/header.component';
 import { OAuthService } from "angular2-oauth2/oauth-service";
 import { VacationCartComponent } from "./feed/vacation/vacation-cart.component";
 
@@ -16,7 +17,7 @@ import { VacationCartComponent } from "./feed/vacation/vacation-cart.component";
     HttpModule,
     routing
 ],
-  declarations: [ AppComponent, VacationCartComponent, SidebarComponent ],
+  declarations: [ AppComponent, VacationCartComponent, SidebarComponent, HeaderComponent ],
   bootstrap:    [ AppComponent ],
   providers:    [ OAuthService, appRoutingProviders ]
 })
