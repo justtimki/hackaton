@@ -3,19 +3,20 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule }    from '@angular/http';
 
-import { AppComponent }  from './app.component';
+import { AppComponent, routing, appRoutingProviders }  from './app.component';
 import { RegistrationFormComponent } from './registration/registration.component';
 import { OAuthService } from "angular2-oauth2/oauth-service";
-
+import { VacationCartComponent } from "./feed/vacation/vacation-cart.component";
 
 @NgModule({
   imports:      [ 
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    routing
 ],
-  declarations: [ AppComponent, RegistrationFormComponent ],
+  declarations: [ AppComponent, VacationCartComponent ],
   bootstrap:    [ AppComponent ],
-  providers:    [ OAuthService ]
+  providers:    [ OAuthService, appRoutingProviders ]
 })
 export class AppModule { }

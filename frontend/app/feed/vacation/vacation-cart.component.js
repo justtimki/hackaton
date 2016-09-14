@@ -8,25 +8,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require("@angular/core");
-var vacation_cart_component_1 = require("./feed/vacation/vacation-cart.component");
-var router_1 = require('@angular/router');
-var appRoutes = [
-    { path: '', component: vacation_cart_component_1.VacationCartComponent, useAsDefault: true }
-];
-var AppComponent = (function () {
-    function AppComponent() {
+var core_1 = require('@angular/core');
+var vacation_service_1 = require('./vacation.service');
+var VacationCartComponent = (function () {
+    function VacationCartComponent(vacationService) {
+        this.vacationService = vacationService;
+        this.vacation = null;
+        this.vacation = this.vacationService.getVacation();
     }
-    AppComponent = __decorate([
+    VacationCartComponent = __decorate([
         core_1.Component({
-            selector: "app",
-            templateUrl: "app/app.template.html"
+            selector: 'vacation-cart',
+            templateUrl: 'app/feed/vacation/vacation-cart.template.html',
+            providers: [vacation_service_1.VacationService]
         }), 
-        __metadata('design:paramtypes', [])
-    ], AppComponent);
-    return AppComponent;
+        __metadata('design:paramtypes', [vacation_service_1.VacationService])
+    ], VacationCartComponent);
+    return VacationCartComponent;
 }());
-exports.AppComponent = AppComponent;
-exports.appRoutingProviders = [];
-exports.routing = router_1.RouterModule.forRoot(appRoutes);
-//# sourceMappingURL=app.component.js.map
+exports.VacationCartComponent = VacationCartComponent;
+//# sourceMappingURL=vacation-cart.component.js.map
