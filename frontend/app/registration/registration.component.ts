@@ -7,7 +7,7 @@ import { OAuthService } from 'angular2-oauth2/oauth-service';
 @Component({
     selector: 'registration-form',
     templateUrl: 'app/registration/registration.template.html',
-    providers: [RegistrationService],
+    providers: [RegistrationService]
 })
 export class RegistrationFormComponent {
 
