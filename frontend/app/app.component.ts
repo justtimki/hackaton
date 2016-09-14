@@ -1,10 +1,12 @@
 import { Component, ModuleWithProviders } from "@angular/core";
 import { VacationCartComponent } from "./feed/vacation/vacation-cart.component";
+import { RegistrationFormComponent } from "./registration/registration.component";
 
 import { Routes, RouterModule }   from '@angular/router';
 
 const appRoutes = [
-    { path: '', component: VacationCartComponent, useAsDefault: true }
+    { path: '', component: VacationCartComponent, useAsDefault: true },
+    { path: 'my', component: RegistrationFormComponent }
 ];
 
 @Component({

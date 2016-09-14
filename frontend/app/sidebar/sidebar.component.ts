@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-declare var UUI: any;
 
+declare var UUI: any;
 declare var $:any;
 
 @Component({
