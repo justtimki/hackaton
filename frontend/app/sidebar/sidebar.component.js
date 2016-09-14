@@ -11,9 +11,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var SidebarComponent = (function () {
     function SidebarComponent() {
-        //UUI.Sidebar.init({open: true});
     }
     SidebarComponent.prototype.doSomthing = function (value) {
+    };
+    SidebarComponent.prototype.ngAfterViewInit = function () {
+        UUI.Sidebar.init({ open: true, animate: true });
     };
     SidebarComponent = __decorate([
         core_1.Component({

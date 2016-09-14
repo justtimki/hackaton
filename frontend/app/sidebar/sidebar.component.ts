@@ -11,10 +11,14 @@ declare var $:any;
 export class SidebarComponent {
 
     constructor() {
-        //UUI.Sidebar.init({open: true});
+        
      }
 
     doSomthing(value: any) {
         
+    }
+
+    ngAfterViewInit() {
+        UUI.Sidebar.init({open: true, animate: true});
     }
 }
