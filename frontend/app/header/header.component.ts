@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { OAuthService } from "angular2-oauth2/oauth-service";
 
 declare var UUI: any;
 //declare var $:any;
@@ -15,10 +16,8 @@ export class HeaderComponent {
         
      }
 
-    openLoginPopup() {
+    startGoogleLogin() {
         alert("Some day, perhaps.");
-
-        return false;
     }
 
     ngAfterViewInit() {

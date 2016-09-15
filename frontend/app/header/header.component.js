@@ -13,9 +13,8 @@ var core_1 = require('@angular/core');
 var HeaderComponent = (function () {
     function HeaderComponent() {
     }
-    HeaderComponent.prototype.openLoginPopup = function () {
+    HeaderComponent.prototype.startGoogleLogin = function () {
         alert("Some day, perhaps.");
-        return false;
     };
     HeaderComponent.prototype.ngAfterViewInit = function () {
         UUI.Header_Tools.init();
