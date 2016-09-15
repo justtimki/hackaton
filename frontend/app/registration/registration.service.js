@@ -10,15 +10,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
+var oauth_service_1 = require('angular2-oauth2/oauth-service');
 var url_util_1 = require('../utils/url.util');
 require('rxjs/add/operator/map');
 require('rxjs/add/operator/toPromise');
 require('rxjs/add/operator/catch');
 var RegistrationService = (function () {
-    function RegistrationService(http) {
+    function RegistrationService(http, oauthService) {
+        var _this = this;
         this.http = http;
+        this.oauthService = oauthService;
+        this.windowHandle = null;
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+        this.oauthService.loginUrl = "https://accounts.google.com/o/oauth2/v2/auth"; //Id-Provider?
+        http.get('config.json')
+            .map(function (res) { return res.json(); })
+            .subscribe(function (config) {
+            _this.oAuthCallbackUrl = config.callbackUrl;
+            _this.oAuthTokenUrl = config.implicitGrantUrl;
+            _this.oAuthTokenUrl = _this.oAuthTokenUrl
+                .replace('__callbackUrl__', config.callbackUrl)
+                .replace('__clientId__', config.clientId)
+                .replace('__scopes__', config.scopes);
+            _this.oAuthUserUrl = config.userInfoUrl;
+            _this.oAuthUserNameField = config.userInfoNameField;
+        });
     }
+    RegistrationService.prototype.startGoogleAuth = function () {
+        this.windowHandle = window.open(this.oAuthTokenUrl, 'OAuth2 Login', 'width=600,height=500');
+    };
     RegistrationService.prototype.register = function (value) {
         var body = JSON.stringify({ "username": value.username, "password": value.password });
         return this.http.post(url_util_1.UrlUtil.REGISTER_ACCOUNT, body, { headers: this.headers })
@@ -38,7 +58,7 @@ var RegistrationService = (function () {
     };
     RegistrationService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http])
+        __metadata('design:paramtypes', [http_1.Http, oauth_service_1.OAuthService])
     ], RegistrationService);
     return RegistrationService;
 }());

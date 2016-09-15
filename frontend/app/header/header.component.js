@@ -9,13 +9,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var oauth_service_1 = require("angular2-oauth2/oauth-service");
+var registration_service_1 = require('../registration/registration.service');
 //declare var $:any;
 var HeaderComponent = (function () {
-    function HeaderComponent(oauthService) {
+    function HeaderComponent(registrationService) {
+        this.registrationService = registrationService;
     }
-    HeaderComponent.prototype.startGoogleLogin = function () {
-        alert("Some day, perhaps.");
+    HeaderComponent.prototype.startGoogleAuth = function () {
+        this.registrationService.startGoogleAuth();
     };
     HeaderComponent.prototype.ngAfterViewInit = function () {
         UUI.Header_Tools.init();
@@ -23,9 +24,10 @@ var HeaderComponent = (function () {
     HeaderComponent = __decorate([
         core_1.Component({
             selector: 'header-login',
-            templateUrl: 'app/header/header.template.html'
+            templateUrl: 'app/header/header.template.html',
+            providers: [registration_service_1.RegistrationService]
         }), 
-        __metadata('design:paramtypes', [oauth_service_1.OAuthService])
+        __metadata('design:paramtypes', [registration_service_1.RegistrationService])
     ], HeaderComponent);
     return HeaderComponent;
 }());
