@@ -12,9 +12,9 @@ declare var UUI: any;
 
 export class HeaderComponent {
 
-    constructor() {
+    constructor(oauthService: OAuthService) {
         
-     }
+    }
 
     startGoogleLogin() {
         alert("Some day, perhaps.");

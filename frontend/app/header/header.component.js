@@ -9,9 +9,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var oauth_service_1 = require("angular2-oauth2/oauth-service");
 //declare var $:any;
 var HeaderComponent = (function () {
-    function HeaderComponent() {
+    function HeaderComponent(oauthService) {
     }
     HeaderComponent.prototype.startGoogleLogin = function () {
         alert("Some day, perhaps.");
@@ -24,7 +25,7 @@ var HeaderComponent = (function () {
             selector: 'header-login',
             templateUrl: 'app/header/header.template.html'
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [oauth_service_1.OAuthService])
     ], HeaderComponent);
     return HeaderComponent;
 }());
