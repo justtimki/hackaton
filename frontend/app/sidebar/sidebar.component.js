@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+//declare var $:any;
 var SidebarComponent = (function () {
     function SidebarComponent() {
     }
@@ -16,10 +17,6 @@ var SidebarComponent = (function () {
     };
     SidebarComponent.prototype.ngAfterViewInit = function () {
         UUI.Sidebar.init({ open: true, animate: true });
-        /*$(".sidebar-menu li").click(function() {
-            $(this).siblings().removeClass("active");
-            $(this).addClass("active");
-        });*/
     };
     SidebarComponent = __decorate([
         core_1.Component({

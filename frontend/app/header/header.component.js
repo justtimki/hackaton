@@ -9,12 +9,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+//declare var $:any;
 var HeaderComponent = (function () {
     function HeaderComponent() {
     }
-    HeaderComponent.prototype.doSomthing = function (value) {
+    HeaderComponent.prototype.openLoginPopup = function () {
+        alert("Some day, perhaps.");
+        return false;
     };
     HeaderComponent.prototype.ngAfterViewInit = function () {
+        UUI.Header_Tools.init();
     };
     HeaderComponent = __decorate([
         core_1.Component({
