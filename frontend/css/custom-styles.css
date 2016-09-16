@@ -87,3 +87,6 @@ button.card-button {
     border: none;
     background: transparent;
 }
+header .uui-header .user-profile {
+    float: right;
+}

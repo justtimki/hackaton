@@ -19,7 +19,11 @@ export class HeaderComponent {
     }
 
     startGoogleAuth() {
-        this.registrationService.startGoogleAuth();
+        this.registrationService.startGoogleAuth(this);
+    }
+
+    onUserLogin(user: any) {
+        alert(user.displayName);
     }
 
     ngAfterViewInit() {

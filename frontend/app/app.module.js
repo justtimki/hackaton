@@ -17,6 +17,7 @@ var sidebar_component_1 = require('./sidebar/sidebar.component');
 var header_component_1 = require('./header/header.component');
 var oauth_service_1 = require("angular2-oauth2/oauth-service");
 var vacation_cart_component_1 = require("./feed/vacation/vacation-cart.component");
+var window_service_1 = require("./registration/window.service");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -30,7 +31,7 @@ var AppModule = (function () {
             ],
             declarations: [app_component_1.AppComponent, vacation_cart_component_1.VacationCartComponent, sidebar_component_1.SidebarComponent, header_component_1.HeaderComponent],
             bootstrap: [app_component_1.AppComponent],
-            providers: [oauth_service_1.OAuthService, app_component_1.appRoutingProviders]
+            providers: [oauth_service_1.OAuthService, window_service_1.WindowService, app_component_1.appRoutingProviders]
         }), 
         __metadata('design:paramtypes', [])
     ], AppModule);

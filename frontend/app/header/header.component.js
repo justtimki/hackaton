@@ -16,7 +16,10 @@ var HeaderComponent = (function () {
         this.registrationService = registrationService;
     }
     HeaderComponent.prototype.startGoogleAuth = function () {
-        this.registrationService.startGoogleAuth();
+        this.registrationService.startGoogleAuth(this);
+    };
+    HeaderComponent.prototype.onUserLogin = function (user) {
+        alert(user.displayName);
     };
     HeaderComponent.prototype.ngAfterViewInit = function () {
         UUI.Header_Tools.init();
