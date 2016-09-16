@@ -35,6 +35,7 @@ public class ImageController {
         imageService.setExt(image, file.getOriginalFilename().split("\\.")[1]);
         imageService.insertOne(image);
         upload(file, image);
+        image.put("id", imageService.getMongoId(image).toString());
         return image;
     }
 
