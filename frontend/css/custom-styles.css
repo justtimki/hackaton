@@ -55,13 +55,12 @@ body {
     left: 0;
     right: 0;
     top: 100px;
-    padding: 18px 25px;
+    padding: 30px 25px;
     margin: 0;
     line-height: 1.6;
     position: absolute;
     color: #000;
     overflow: hidden;
-    height: 60px;
 }
 .card-action-bar {
     position: absolute;
