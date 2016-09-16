@@ -13,6 +13,9 @@ declare var UUI: any;
 
 export class HeaderComponent {
     private registrationService: RegistrationService;
+    username: string;
+    authenticated: boolean;
+    userInfo: any;
 
     constructor(registrationService: RegistrationService) {
         this.registrationService = registrationService;
@@ -22,8 +25,24 @@ export class HeaderComponent {
         this.registrationService.startGoogleAuth(this);
     }
 
+    logoutGoogle() {
+        this.registrationService.doLogout();
+        this.authenticated = false;
+        this.username = null;
+        this.userInfo = null;
+        return false;
+    }
+
     onUserLogin(user: any) {
-        alert(user.displayName);
+        if (!user) {
+            // TODO handle if a case
+            return;
+        }
+        
+        this.userInfo = user;
+        this.username = this.userInfo.displayName.split(" ")[0];
+
+        this.authenticated = true;
     }
 
     ngAfterViewInit() {

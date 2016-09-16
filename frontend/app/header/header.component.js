@@ -18,8 +18,21 @@ var HeaderComponent = (function () {
     HeaderComponent.prototype.startGoogleAuth = function () {
         this.registrationService.startGoogleAuth(this);
     };
+    HeaderComponent.prototype.logoutGoogle = function () {
+        this.registrationService.doLogout();
+        this.authenticated = false;
+        this.username = null;
+        this.userInfo = null;
+        return false;
+    };
     HeaderComponent.prototype.onUserLogin = function (user) {
-        alert(user.displayName);
+        if (!user) {
+            // TODO handle if a case
+            return;
+        }
+        this.userInfo = user;
+        this.username = this.userInfo.displayName.split(" ")[0];
+        this.authenticated = true;
     };
     HeaderComponent.prototype.ngAfterViewInit = function () {
         UUI.Header_Tools.init();
