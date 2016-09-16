@@ -1,17 +1,14 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8">
-            <div class="vacation">
-                <section class="uui-image-text">
-                    <div class="image-section"><img [src]="vacation.imgLink"></div>
-                    <div class="image-text-section">
-                        {{vacation.title}}
-                    </div>
-                </section>
-                <div class="image-decription-section">
-                    {{vacation.description}}
+            <div class="card card-big">
+                <div [ngStyle]="{'background-image': 'url(' + vacation.imgLink + ')'}" class="card-image"></div>
+                <h2 class="card-title">{{vacation.title}}</h2>
+                <p class="card-text">{{vacation.description}}</p>
+                <div class="card-action-bar">
+                    <button class="card-button">SHARE</button>
+                    <button class="card-button">LEARN MORE</button>
                 </div>
-                <button type="submit">MORE DETAILS</button>
             </div>
         </div>
     </div>
