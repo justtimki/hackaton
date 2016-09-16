@@ -29,11 +29,12 @@ public class ImageController {
     private String uplaodDir;
 
     @RequestMapping(value = "/upload", method = POST)
-    public void uploadImage(@RequestParam("image") MultipartFile file) {
+    public String uploadImage(@RequestParam("image") MultipartFile file) {
         Document image = new Document();
         imageService.setAlt(image, file.getName());
         imageService.insertOne(image);
         upload(file, imageService.getMongoId(image).toString());
+        return imageService.getMongoId(image).toString();
     }
 
     private void upload(MultipartFile file, String fileName) {
