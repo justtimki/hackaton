@@ -14,7 +14,19 @@ public class ImageService extends BaseMongoService {
         super(mongoDatabase, MONGO_COLLECTION);
     }
 
+    public String getAlt(Document image) {
+        return image.getString("alt");
+    }
+
     public void setAlt(Document image, String alt) {
         image.put("alt", alt);
+    }
+
+    public String getExt(Document image) {
+        return image.getString("ext");
+    }
+
+    public void setExt(Document image, String ext) {
+        image.put("ext", ext);
     }
 }

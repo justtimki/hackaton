@@ -29,18 +29,18 @@ public class ImageController {
     private String uplaodDir;
 
     @RequestMapping(value = "/upload", method = POST)
-    public String uploadImage(@RequestParam("file") MultipartFile file) {
+    public Document uploadImage(@RequestParam("file") MultipartFile file) {
         Document image = new Document();
         imageService.setAlt(image, file.getOriginalFilename());
+        imageService.setExt(image, file.getOriginalFilename().split("\\.")[1]);
         imageService.insertOne(image);
-        String fileName = imageService.getMongoId(image).toString() + "." +  file.getOriginalFilename().split("\\.")[1];
-        upload(file, fileName);
-        return fileName;
+        upload(file, image);
+        return image;
     }
 
-    private void upload(MultipartFile file, String fileName) {
+    private void upload(MultipartFile file, Document image) {
         try {
-            String filePath = Paths.get(uplaodDir, fileName).toString();
+            String filePath = Paths.get(uplaodDir, imageService.getMongoId(image).toString() + "." + imageService.getExt(image)).toString();
 
             BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filePath)));
             stream.write(file.getBytes());
