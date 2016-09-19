@@ -1,22 +1,24 @@
 package com.epam.k.service;
 
-import com.epam.k.domain.User;
-import com.mongodb.client.MongoDatabase;
-import org.bson.Document;
+import com.epam.k.dao.VacationDAO;
+import com.epam.k.domain.Vacation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
-public class VacationService extends BaseMongoService {
-    private static final String MONGO_COLLECTION = "vacation";
+public class VacationService {
 
-    public VacationService(MongoDatabase mongoDatabase) {
-        super(mongoDatabase, MONGO_COLLECTION);
-    }
+    private final static Logger LOG = LoggerFactory.getLogger(VacationService.class);
 
-    @SuppressWarnings("unchecked")
-    public List<User> getUsers(Document vacation) {
-        return vacation.get("users", List.class);
+    @Autowired
+    private VacationDAO vacationDAO;
+
+    public Page<Vacation> getVacations(final Pageable pageable) {
+        LOG.debug("Request to find all vacations");
+        return vacationDAO.findAll(pageable);
     }
 }
