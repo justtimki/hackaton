@@ -16,7 +16,7 @@ export class RegistrationFormComponent {
     }
 
     doRegistration(value: any) {
-        this.result =  this.registrationService.register(value);
-        JSON.stringify(this.result);
+        // this.result =  this.registrationService.register(value);
+        // JSON.stringify(this.result);
     }
 }

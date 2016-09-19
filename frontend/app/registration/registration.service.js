@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 var window_service_1 = require("./window.service");
-var url_util_1 = require('../utils/url.util');
 require('rxjs/add/operator/map');
 require('rxjs/add/operator/toPromise');
 require('rxjs/add/operator/catch');
@@ -21,6 +20,7 @@ var RegistrationService = (function () {
         var _this = this;
         this.windows = windows;
         this.http = http;
+        this.ckTokenName = "STKN";
         this.authenticated = false;
         this.expires = 0;
         this.userInfo = {};
@@ -91,6 +91,7 @@ var RegistrationService = (function () {
                         var expiresSeconds = Number(parsed.expires_in) || 1800;
                         _this.token = parsed.access_token;
                         if (_this.token) {
+                            _this.saveTokenToCookies();
                             _this.authenticated = true;
                             _this.startExpiresTimer(expiresSeconds);
                             _this.expires = new Date();
@@ -116,6 +117,9 @@ var RegistrationService = (function () {
                 }
             }
         }, this.intervalLength);
+    };
+    RegistrationService.prototype.saveTokenToCookies = function () {
+        Cookies.set(this.ckTokenName, this.token, { secure: true });
     };
     RegistrationService.prototype.onUserParsed = function () {
         console.log("User Info:", JSON.stringify(this.userInfo));
@@ -216,13 +220,13 @@ var RegistrationService = (function () {
         }, {});
     };
     ;
-    RegistrationService.prototype.register = function (value) {
-        var body = JSON.stringify({ "username": value.username, "password": value.password });
-        return this.http.post(url_util_1.UrlUtil.REGISTER_ACCOUNT, body, { headers: this.headers })
-            .toPromise()
-            .then(this.extractData)
-            .catch(this.handleError);
-    };
+    // register(value: User): Promise<User> {
+    //     let body = JSON.stringify({ "username": value.username, "password": value.password });
+    //     return this.http.post(UrlUtil.REGISTER_ACCOUNT, body, { headers: this.headers })
+    //         .toPromise()
+    //         .then(this.extractData)
+    //         .catch(this.handleError);
+    // }
     RegistrationService.prototype.extractData = function (res) {
         var body = res.json();
         return body.data || {};

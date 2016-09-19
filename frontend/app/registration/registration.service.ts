@@ -10,8 +10,11 @@ import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/catch';
 import { Observable } from 'rxjs/Observable';
 
+declare var Cookies: any;
+
 @Injectable()
 export class RegistrationService {
+    private ckTokenName = "STKN";
     private oAuthCallbackUrl: string;
     private oAuthTokenUrl: string;
     private oAuthUserUrl: string;
@@ -100,6 +103,7 @@ export class RegistrationService {
 
                         this.token = parsed.access_token;
                         if (this.token) {
+                            this.saveTokenToCookies();
                             this.authenticated = true;
                             this.startExpiresTimer(expiresSeconds);
                             this.expires = new Date();
@@ -125,6 +129,10 @@ export class RegistrationService {
                 }
             }
         }, this.intervalLength);
+    }
+
+    private saveTokenToCookies() {
+        Cookies.set(this.ckTokenName, this.token, { secure: true });
     }
 
     private onUserParsed() {
