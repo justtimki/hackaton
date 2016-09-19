@@ -9,10 +9,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var core_2 = require('@angular/core');
 var registration_service_1 = require('../registration/registration.service');
 var HeaderComponent = (function () {
-    function HeaderComponent(registrationService) {
+    function HeaderComponent(registrationService, ref) {
+        this.ref = ref;
+        this.username = "";
+        this.userPortraitUrl = "";
         this.authInProgress = false;
+        this.authenticated = false;
         this.registrationService = registrationService;
         this.registrationService.setListener(this);
     }
@@ -22,8 +27,10 @@ var HeaderComponent = (function () {
     };
     HeaderComponent.prototype.logoutGoogle = function () {
         this.registrationService.doLogout();
+        this.authenticated = true;
         this.username = null;
         this.userInfo = null;
+        this.userPortraitUrl = null;
         return false;
     };
     HeaderComponent.prototype.onUserLogin = function (user) {
@@ -32,16 +39,21 @@ var HeaderComponent = (function () {
             return;
         }
         this.userInfo = user;
+        this.authenticated = true;
         this.onUserRegister();
+        this.ref.detectChanges();
     };
     HeaderComponent.prototype.onUserRegister = function () {
         this.userPortraitUrl = this.userInfo.image.url;
         this.username = this.userInfo.name.givenName ? this.userInfo.name.givenName : this.userInfo.displayName;
-        this.authInProgress = false;
-        $("#loginDialog .close").trigger("click");
+        if (this.authInProgress) {
+            this.authInProgress = false;
+            $("#loginDialog .close").trigger("click");
+        }
     };
     HeaderComponent.prototype.ngAfterViewInit = function () {
         UUI.Header_Tools.init();
+        this.registrationService.tryLogin();
     };
     HeaderComponent = __decorate([
         core_1.Component({
@@ -49,7 +61,7 @@ var HeaderComponent = (function () {
             templateUrl: 'app/header/header.template.html',
             providers: [registration_service_1.RegistrationService]
         }), 
-        __metadata('design:paramtypes', [registration_service_1.RegistrationService])
+        __metadata('design:paramtypes', [registration_service_1.RegistrationService, core_2.ChangeDetectorRef])
     ], HeaderComponent);
     return HeaderComponent;
 }());

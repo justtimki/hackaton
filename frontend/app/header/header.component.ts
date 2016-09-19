@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { OAuthService } from "angular2-oauth2/oauth-service";
 import { RegistrationService } from '../registration/registration.service';
 
@@ -13,12 +14,13 @@ declare var $: any;
 
 export class HeaderComponent {
     private registrationService: RegistrationService;
-    username: string;
-    userPortraitUrl: string; 
+    username: string = "";
+    userPortraitUrl: string = ""; 
     userInfo: any;
     authInProgress: boolean = false;
+    authenticated: boolean = false;
 
-    constructor(registrationService: RegistrationService) {
+    constructor(registrationService: RegistrationService, private ref: ChangeDetectorRef) {
         this.registrationService = registrationService;
         this.registrationService.setListener(this);
     }
@@ -30,8 +32,10 @@ export class HeaderComponent {
 
     logoutGoogle() {
         this.registrationService.doLogout();
+        this.authenticated = true;
         this.username = null;
         this.userInfo = null;
+        this.userPortraitUrl = null;
         return false;
     }
 
@@ -41,19 +45,25 @@ export class HeaderComponent {
             return;
         }
         this.userInfo = user;
+        this.authenticated = true;
         this.onUserRegister();    
+        this.ref.detectChanges();
     }
 
     onUserRegister() {
         this.userPortraitUrl = this.userInfo.image.url;
         this.username = this.userInfo.name.givenName ? this.userInfo.name.givenName : this.userInfo.displayName;
 
-        this.authInProgress = false;
-        $("#loginDialog .close").trigger("click");
+        if (this.authInProgress) {
+            this.authInProgress = false;
+            $("#loginDialog .close").trigger("click");
+        }
     }
 
     ngAfterViewInit() {
         UUI.Header_Tools.init();
+
+        this.registrationService.tryLogin();
     }
 }
 
