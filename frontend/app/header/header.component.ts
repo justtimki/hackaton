@@ -15,7 +15,6 @@ export class HeaderComponent {
     private registrationService: RegistrationService;
     username: string;
     userPortraitUrl: string; 
-    authenticated: boolean;
     userInfo: any;
     authInProgress: boolean = false;
 
@@ -31,7 +30,6 @@ export class HeaderComponent {
 
     logoutGoogle() {
         this.registrationService.doLogout();
-        this.authenticated = false;
         this.username = null;
         this.userInfo = null;
         return false;
@@ -43,17 +41,16 @@ export class HeaderComponent {
             return;
         }
         this.userInfo = user;
+        this.onUserRegister();    
     }
 
     onUserRegister() {
         this.userPortraitUrl = this.userInfo.image.url;
-        this.username = this.userInfo.displayName;
-        this.authenticated = true;
+        this.username = this.userInfo.name.givenName ? this.userInfo.name.givenName : this.userInfo.displayName;
 
         this.authInProgress = false;
         $("#loginDialog .close").trigger("click");
     }
-
 
     ngAfterViewInit() {
         UUI.Header_Tools.init();
