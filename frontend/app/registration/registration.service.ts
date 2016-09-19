@@ -25,6 +25,7 @@ export class RegistrationService {
     private expiresTimerId: any = null;
     private loopCount = 600;
     private intervalLength = 100;
+    private registerUrl: string;
     private listener: any;
 
     private locationWatcher = new EventEmitter();
@@ -45,6 +46,8 @@ export class RegistrationService {
                     .replace('__scopes__', config.scopes);
                 this.oAuthUserUrl = config.userInfoUrl;
                 this.oAuthUserNameField = config.userInfoNameField;
+
+                this.registerUrl = config.restRegister;
                 // this.oauthService.loginUrl = config.implicitGrantUrl;
                 // this.oauthService.clientId = config.clientId;
                 // this.oauthService.redirectUri = config.callbackUrl;
@@ -52,9 +55,24 @@ export class RegistrationService {
             })
     }
 
-    startGoogleAuth(listener: any) {
-        //this.oauthService.initImplicitFlow();
+    setListener(listener: any) {
         this.listener = listener;
+    }
+
+    registerUser(user: User) {
+        this.http.post(this.registerUrl, JSON.stringify(user), null).toPromise().then(this.onRegReturn);
+    }
+
+    private onRegReturn(res: Response) {
+        if (res.ok) {
+            if (this.listener) {
+                this.listener.onUserRegister();
+            }
+        }
+    }
+
+    startGoogleAuth() {
+        //this.oauthService.initImplicitFlow();
         var loopCount = this.loopCount;
         this.windowHandle = this.windows.createWindow(this.oAuthTokenUrl, 'OAuth2 Login');
 
@@ -109,6 +127,13 @@ export class RegistrationService {
         }, this.intervalLength);
     }
 
+    private onUserParsed() {
+        console.log("User Info:", JSON.stringify(this.userInfo));
+        if (this.listener) {
+            this.listener.onUserLogin(this.userInfo);
+        }
+    } 
+
     public doLogout() {
         this.authenticated = false;
         this.expiresTimerId = null;
@@ -147,8 +172,7 @@ export class RegistrationService {
                 .map(res => res.json())
                 .subscribe(info => {
                     this.userInfo = info;
-                    this.listener.onUserLogin(this.userInfo);
-                    console.log("User Info:", info);
+                    this.onUserParsed();
                 }, err => {
                     console.error("Failed to fetch user info:", err);
                 });
@@ -218,13 +242,13 @@ export class RegistrationService {
         }, {});
     };
 
-    register(value: User): Promise<User> {
-        let body = JSON.stringify({ "username": value.username, "password": value.password });
-        return this.http.post(UrlUtil.REGISTER_ACCOUNT, body, { headers: this.headers })
-            .toPromise()
-            .then(this.extractData)
-            .catch(this.handleError);
-    }
+    // register(value: User): Promise<User> {
+    //     let body = JSON.stringify({ "username": value.username, "password": value.password });
+    //     return this.http.post(UrlUtil.REGISTER_ACCOUNT, body, { headers: this.headers })
+    //         .toPromise()
+    //         .then(this.extractData)
+    //         .catch(this.handleError);
+    // }
 
     private extractData(res: Response) {
         let body = res.json();

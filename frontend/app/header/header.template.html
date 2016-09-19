@@ -50,13 +50,16 @@
                 <li class="dropdown uui-profile-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <div class="profile-photo">
-                            <img src="node_modules/uui-framework/uui/images/icons/no_photo.png" alt="" />
+                            <img src="node_modules/uui-framework/uui/images/icons/no_photo.png" alt="" *ngIf="!authenticated"/>
+                            <img src="{{userPortraitUrl}}" alt="" *ngIf="authenticated"/>
                         </div>
                     </a>
                     <div class="dropdown-menu" role="menu">
                         <span class="menu-arrow"></span>
-                        <ul class="profile-links">
+                        <ul class="profile-links" *ngIf="!authenticated">
                             <li class="login"><a href="" data-toggle="modal" data-target="#loginDialog"><i class="fa fa-sign-in"></i>Log in</a></li>
+                        </ul>
+                        <ul class="profile-links" *ngIf="authenticated">
                             <li class="logout"><a href="" (click)="logoutGoogle()"><i class="fa fa-sign-out"></i>Log out</a></li>
                         </ul>
                     </div>
@@ -108,6 +111,9 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div style="text-align: center; margin-top: 12px; color: #1A9CB0;" *ngIf="authInProgress">
+                    <i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
                 </div>
             </div>
             <!--<div class="modal-body">

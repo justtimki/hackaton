@@ -42,16 +42,29 @@ var RegistrationService = (function () {
                 .replace('__scopes__', config.scopes);
             _this.oAuthUserUrl = config.userInfoUrl;
             _this.oAuthUserNameField = config.userInfoNameField;
+            _this.registerUrl = config.restRegister;
             // this.oauthService.loginUrl = config.implicitGrantUrl;
             // this.oauthService.clientId = config.clientId;
             // this.oauthService.redirectUri = config.callbackUrl;
             // this.oauthService.scope = config.scopes;
         });
     }
-    RegistrationService.prototype.startGoogleAuth = function (listener) {
+    RegistrationService.prototype.setListener = function (listener) {
+        this.listener = listener;
+    };
+    RegistrationService.prototype.registerUser = function (user) {
+        this.http.post(this.registerUrl, JSON.stringify(user), null).toPromise().then(this.onRegReturn);
+    };
+    RegistrationService.prototype.onRegReturn = function (res) {
+        if (res.ok) {
+            if (this.listener) {
+                this.listener.onUserRegister();
+            }
+        }
+    };
+    RegistrationService.prototype.startGoogleAuth = function () {
         var _this = this;
         //this.oauthService.initImplicitFlow();
-        this.listener = listener;
         var loopCount = this.loopCount;
         this.windowHandle = this.windows.createWindow(this.oAuthTokenUrl, 'OAuth2 Login');
         this.intervalId = setInterval(function () {
@@ -104,6 +117,12 @@ var RegistrationService = (function () {
             }
         }, this.intervalLength);
     };
+    RegistrationService.prototype.onUserParsed = function () {
+        console.log("User Info:", JSON.stringify(this.userInfo));
+        if (this.listener) {
+            this.listener.onUserLogin(this.userInfo);
+        }
+    };
     RegistrationService.prototype.doLogout = function () {
         this.authenticated = false;
         this.expiresTimerId = null;
@@ -137,8 +156,7 @@ var RegistrationService = (function () {
                 .map(function (res) { return res.json(); })
                 .subscribe(function (info) {
                 _this.userInfo = info;
-                _this.listener.onUserLogin(_this.userInfo);
-                console.log("User Info:", info);
+                _this.onUserParsed();
             }, function (err) {
                 console.error("Failed to fetch user info:", err);
             });

@@ -10,13 +10,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var registration_service_1 = require('../registration/registration.service');
-//declare var $:any;
 var HeaderComponent = (function () {
     function HeaderComponent(registrationService) {
+        this.authInProgress = false;
         this.registrationService = registrationService;
+        this.registrationService.setListener(this);
     }
     HeaderComponent.prototype.startGoogleAuth = function () {
-        this.registrationService.startGoogleAuth(this);
+        this.authInProgress = true;
+        this.registrationService.startGoogleAuth();
     };
     HeaderComponent.prototype.logoutGoogle = function () {
         this.registrationService.doLogout();
@@ -31,8 +33,13 @@ var HeaderComponent = (function () {
             return;
         }
         this.userInfo = user;
-        this.username = this.userInfo.displayName.split(" ")[0];
+    };
+    HeaderComponent.prototype.onUserRegister = function () {
+        this.userPortraitUrl = this.userInfo.image.url;
+        this.username = this.userInfo.displayName;
         this.authenticated = true;
+        this.authInProgress = false;
+        $("#loginDialog .close").trigger("click");
     };
     HeaderComponent.prototype.ngAfterViewInit = function () {
         UUI.Header_Tools.init();
@@ -48,4 +55,29 @@ var HeaderComponent = (function () {
     return HeaderComponent;
 }());
 exports.HeaderComponent = HeaderComponent;
+/*
+{
+    "kind":"plus#person",
+    "etag":"\"xw0en60W6-NurXn4VBU-CMjSPEw/y94uXrhVwFkI8XQxnu_rVuN3X4k\"",
+    "gender":"male",
+    "objectType":"person",
+    "id":"117000538289220516067",
+    "displayName":"Егор Фролов",
+    "name":{
+        "familyName":"Фролов",
+        "givenName":"Егор"
+    },
+    "url":"https://plus.google.com/117000538289220516067",
+    "image":{
+        "url":"https://lh5.googleusercontent.com/-I0wwBw5zi_w/AAAAAAAAAAI/AAAAAAAADXI/YVedgBlyWDw/photo.jpg?sz=50",
+        "isDefault":false
+    },
+    "placesLived":[{"value":"Гомель"}],
+    "isPlusUser":true,
+    "language":"ru",
+    "circledByCount":8,
+    "verified":false,
+    "cover":{"layout":"banner","coverPhoto":{"url":"https://lh3.googleusercontent.com/6gsqFS0yW1Z4g9Dywq-xGrggr78J2B-yEYcsWs4xCCNIltECBdUH9PVaijDyAl8svjrfpHJ3=s630-fcrop64=1,00000000ffffffff","height":530,"width":940},"coverInfo":{"topImageOffset":0,"leftImageOffset":0}}
+}
+*/ 
 //# sourceMappingURL=header.component.js.map
