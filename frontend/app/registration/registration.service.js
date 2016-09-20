@@ -21,6 +21,7 @@ var RegistrationService = (function () {
         this.windows = windows;
         this.http = http;
         this.ckTokenName = "STKN";
+        this.ckUserInfoName = "userInfoJSON";
         this.authenticated = false;
         this.expires = 0;
         this.userInfo = {};
@@ -118,11 +119,41 @@ var RegistrationService = (function () {
             }
         }, this.intervalLength);
     };
+    RegistrationService.prototype.tryLogin = function () {
+        var tokenSaved = this.getTokenFromCookies();
+        if (tokenSaved) {
+            this.authenticated = true;
+            this.userInfo = this.restoreUserFromCookies();
+            if (this.listener) {
+                this.listener.onUserLogin(this.userInfo);
+            }
+        }
+    };
     RegistrationService.prototype.saveTokenToCookies = function () {
-        Cookies.set(this.ckTokenName, this.token, { secure: true });
+        Cookies.set(this.ckTokenName, this.token, { expires: 7 /*, secure: true*/ });
+    };
+    RegistrationService.prototype.getTokenFromCookies = function () {
+        return Cookies.get(this.ckTokenName /*, {secure: true}*/);
+    };
+    RegistrationService.prototype.saveUserToCookies = function () {
+        Cookies.set(this.ckUserInfoName, JSON.stringify(this.userInfo), { expires: 7 });
+    };
+    RegistrationService.prototype.restoreUserFromCookies = function () {
+        var userInfoString = Cookies.get(this.ckUserInfoName);
+        if (userInfoString) {
+            return JSON.parse(userInfoString);
+        }
+        else {
+            return null;
+        }
+    };
+    RegistrationService.prototype.clearCookies = function () {
+        Cookies.remove(this.ckTokenName);
+        Cookies.remove(this.ckUserInfoName, { secure: true });
     };
     RegistrationService.prototype.onUserParsed = function () {
         console.log("User Info:", JSON.stringify(this.userInfo));
+        this.saveUserToCookies();
         if (this.listener) {
             this.listener.onUserLogin(this.userInfo);
         }
@@ -133,6 +164,7 @@ var RegistrationService = (function () {
         this.expires = 0;
         this.token = null;
         this.emitAuthStatus(true);
+        this.clearCookies();
         console.log('Session has been cleared');
     };
     RegistrationService.prototype.emitAuthStatus = function (success) {

@@ -15,6 +15,7 @@ declare var Cookies: any;
 @Injectable()
 export class RegistrationService {
     private ckTokenName = "STKN";
+    private ckUserInfoName = "userInfoJSON";
     private oAuthCallbackUrl: string;
     private oAuthTokenUrl: string;
     private oAuthUserUrl: string;
@@ -131,12 +132,47 @@ export class RegistrationService {
         }, this.intervalLength);
     }
 
+    tryLogin() {
+        let tokenSaved = this.getTokenFromCookies();
+        if (tokenSaved) {
+            this.authenticated = true;
+            this.userInfo = this.restoreUserFromCookies();
+
+            if (this.listener) {
+                this.listener.onUserLogin(this.userInfo);
+            }
+        }
+    }
+
     private saveTokenToCookies() {
-        Cookies.set(this.ckTokenName, this.token, { secure: true });
+        Cookies.set(this.ckTokenName, this.token, { expires: 7/*, secure: true*/ });
+    }
+
+    private getTokenFromCookies() {
+        return Cookies.get(this.ckTokenName/*, {secure: true}*/);
+    }
+
+    private saveUserToCookies() {
+        Cookies.set(this.ckUserInfoName, JSON.stringify(this.userInfo), {expires: 7});
+    }
+
+    private restoreUserFromCookies() {
+        let userInfoString = Cookies.get(this.ckUserInfoName);
+        if (userInfoString) {
+            return JSON.parse(userInfoString);
+        } else {
+            return null;
+        }
+    }
+
+    private clearCookies() {
+        Cookies.remove(this.ckTokenName);
+        Cookies.remove(this.ckUserInfoName, { secure: true });
     }
 
     private onUserParsed() {
         console.log("User Info:", JSON.stringify(this.userInfo));
+        this.saveUserToCookies();
         if (this.listener) {
             this.listener.onUserLogin(this.userInfo);
         }
@@ -148,6 +184,7 @@ export class RegistrationService {
         this.expires = 0;
         this.token = null;
         this.emitAuthStatus(true);
+        this.clearCookies();
         console.log('Session has been cleared');
     }
 
