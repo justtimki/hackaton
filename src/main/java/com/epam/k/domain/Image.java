@@ -13,6 +13,8 @@ import java.net.URI;
 @Document
 public class Image {
     private String id;
+    private String altText;
+    private String extension;
     private URI uri;
     private String description;
 }

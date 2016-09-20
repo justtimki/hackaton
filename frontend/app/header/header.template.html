@@ -1,0 +1,128 @@
+<header>
+    <div class="uui-header sidebar-header">
+        <nav>
+            <!--Responsive html-layuot-->
+            <div class="uui-responsive-header">
+                <div class="responsive-header">
+                    <div class="responsive-toggle-box">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div class="responsive-hide-menu">
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <a routerLink="/" class="responsive-brand-logo">
+                        <span class="logo">
+                                        <img src="node_modules/uui-framework/uui/images/ic_logo_UUi.svg" alt="" />
+                                    </span>
+                        <span class="title">Unified UI</span>
+                    </a>
+                </div>
+                <div class="responsive-menu">
+                    <div class="menu-wrapper">
+                        <div class="menu-scroll">
+                            <ul class="nav navbar-nav">
+                                <li class="sub-menu profile-menu">
+                                    <a href="#"><span>Profile</span></a>
+                                    <ul class="sub">
+                                        <li class="login"><a href="#"><span>Log in</span></a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="uui-toggle-box">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <!---->
+            <a routerLink="/" class="brand-logo">
+                <span class="logo">
+                    <img src="node_modules/uui-framework/uui/images/ic_logo_UUi.svg" alt="" />
+                </span> K-App
+            </a>
+            <ul class="uui-header-tools nav navbar-nav">
+                <li class="dropdown uui-profile-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <div class="profile-photo">
+                            <img src="node_modules/uui-framework/uui/images/icons/no_photo.png" alt="" *ngIf="!authenticated"/>
+                            <img src="{{userPortraitUrl}}" alt="" *ngIf="authenticated"/>
+                        </div>
+                    </a>
+                    <div class="dropdown-menu" role="menu">
+                        <span class="menu-arrow"></span>
+                        <ul class="profile-links" *ngIf="!authenticated">
+                            <li class="login"><a href="" data-toggle="modal" data-target="#loginDialog"><i class="fa fa-sign-in"></i>Log in</a></li>
+                        </ul>
+                        <ul class="profile-links" *ngIf="authenticated">
+                            <li class="logout"><a href="" (click)="logoutGoogle()"><i class="fa fa-sign-out"></i>Log out</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+            <ul class="uui-navigation nav navbar-nav user-profile" *ngIf="authenticated">
+                <li><a href="">{{username}}</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div class="modal uui-modal fade" id="loginDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!--<h4 class="modal-title">Modal Tittle</h4>-->
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span></span><span></span></button>
+
+                <div class="uui-login-panel" style="margin-left: auto; margin-right: auto; display: block;">
+                    <div class="login-panel-body">
+                        <div class="login-panel-section">
+                            <p class="section-title">Login with Social sites</p>
+                            <div class="social-icons">
+                                <button class="uui-button transparent fa fa-google-plus" (click)="startGoogleAuth()"></button>
+                                <button class="uui-button transparent fa fa-twitter"></button>
+                                <button class="uui-button transparent fa fa-linkedin"></button>
+                                <button class="uui-button transparent fa fa-vk"></button>
+                                <button class="uui-button transparent fa fa-facebook"></button>
+                                <button class="uui-button transparent fa fa-github-alt"></button>
+                            </div>
+                            <div class="login-separator">
+                                <div class="border">
+                                    <span></span>
+                                </div>
+                                <div class="text">
+                                    <span>or</span>
+                                </div>
+                                <div class="border">
+                                    <span></span>
+                                </div>
+                            </div>
+                            <div class="epam-login">
+                                <button class="uui-button large raspberry">
+                                    <i class="fa fa-angle-left"></i>
+                                    EPAM Login
+                                    <i class="fa fa-angle-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 12px; color: #1A9CB0;" *ngIf="authInProgress">
+                    <i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
+                </div>
+            </div>
+            <!--<div class="modal-body">
+                Modal content
+            </div>-->
+            <!--<div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="uui-button transparent">Cancel</button>
+                <button type="button" class="uui-button lime-green">Save changes</button>
+            </div>-->
+        </div>
+    </div>
+</div>

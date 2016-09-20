@@ -19,9 +19,9 @@ public class UserService {
     @Autowired
     private UserDAO userDAO;
 
-    public void save(final User user) {
+    public User save(final User user) {
         LOG.debug("Saving user '{}'", user.getUsername());
-        userDAO.save(user);
+        return userDAO.save(user);
     }
 
     public User findByUsername(final String username) {

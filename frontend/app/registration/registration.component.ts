@@ -11,10 +11,12 @@ export class RegistrationFormComponent {
 
     private result;
 
-    constructor(private registrationService: RegistrationService) { }
+    constructor(private registrationService: RegistrationService) {
+        
+    }
 
     doRegistration(value: any) {
-        this.result =  this.registrationService.register(value);
-        JSON.stringify(this.result);
+        // this.result =  this.registrationService.register(value);
+        // JSON.stringify(this.result);
     }
 }

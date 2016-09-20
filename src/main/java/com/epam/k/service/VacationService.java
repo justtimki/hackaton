@@ -21,4 +21,9 @@ public class VacationService {
         LOG.debug("Request to find all vacations");
         return vacationDAO.findAll(pageable);
     }
+
+    public Vacation findById(final String id) {
+        LOG.debug("Request to find Vacation with id {}", id);
+        return vacationDAO.findOne(id);
+    }
 }

@@ -15,8 +15,8 @@ var RegistrationFormComponent = (function () {
         this.registrationService = registrationService;
     }
     RegistrationFormComponent.prototype.doRegistration = function (value) {
-        this.result = this.registrationService.register(value);
-        JSON.stringify(this.result);
+        // this.result =  this.registrationService.register(value);
+        // JSON.stringify(this.result);
     };
     RegistrationFormComponent = __decorate([
         core_1.Component({

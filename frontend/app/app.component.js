@@ -9,19 +9,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
+var vacation_cart_component_1 = require("./feed/vacation/vacation-cart.component");
 var registration_component_1 = require("./registration/registration.component");
+var router_1 = require('@angular/router');
+var appRoutes = [
+    { path: '', redirectTo: 'all', pathMatch: 'full' },
+    { path: 'all', component: vacation_cart_component_1.VacationCartComponent, useAsDefault: true },
+    { path: 'my', component: registration_component_1.RegistrationFormComponent }
+];
 var AppComponent = (function () {
     function AppComponent() {
     }
     AppComponent = __decorate([
         core_1.Component({
             selector: "app",
-            templateUrl: "app/app.template.html",
-            directives: [registration_component_1.RegistrationFormComponent]
+            templateUrl: "app/app.template.html"
         }), 
         __metadata('design:paramtypes', [])
     ], AppComponent);
     return AppComponent;
 }());
 exports.AppComponent = AppComponent;
+exports.appRoutingProviders = [];
+exports.routing = router_1.RouterModule.forRoot(appRoutes);
 //# sourceMappingURL=app.component.js.map

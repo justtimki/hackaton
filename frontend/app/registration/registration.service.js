@@ -10,27 +10,236 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
-var url_util_1 = require("../utils/url.util");
+var window_service_1 = require("./window.service");
+require('rxjs/add/operator/map');
 require('rxjs/add/operator/toPromise');
+require('rxjs/add/operator/catch');
 var RegistrationService = (function () {
-    function RegistrationService(http) {
+    function RegistrationService(windows, http /*private oauthService: OAuthService*/) {
+        //this.oauthService.loginUrl = "https://accounts.google.com/o/oauth2/v2/auth"; //Id-Provider?
+        var _this = this;
+        this.windows = windows;
         this.http = http;
-        this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
+        this.ckTokenName = "STKN";
+        this.authenticated = false;
+        this.expires = 0;
+        this.userInfo = {};
+        this.windowHandle = null;
+        this.intervalId = null;
+        this.expiresTimerId = null;
+        this.loopCount = 600;
+        this.intervalLength = 100;
+        this.locationWatcher = new core_1.EventEmitter();
+        this.headers = new http_1.Headers({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+        http.get('config.json')
+            .map(function (res) { return res.json(); })
+            .subscribe(function (config) {
+            _this.oAuthCallbackUrl = config.callbackUrl;
+            _this.oAuthTokenUrl = config.implicitGrantUrl;
+            _this.oAuthTokenUrl = _this.oAuthTokenUrl
+                .replace('__callbackUrl__', config.callbackUrl)
+                .replace('__clientId__', config.clientId)
+                .replace('__scopes__', config.scopes);
+            _this.oAuthUserUrl = config.userInfoUrl;
+            _this.oAuthUserNameField = config.userInfoNameField;
+            _this.registerUrl = config.restRegister;
+            // this.oauthService.loginUrl = config.implicitGrantUrl;
+            // this.oauthService.clientId = config.clientId;
+            // this.oauthService.redirectUri = config.callbackUrl;
+            // this.oauthService.scope = config.scopes;
+        });
     }
-    RegistrationService.prototype.register = function (value) {
-        return this.http
-            .post(url_util_1.UrlUtil.REGISTER_ACCOUNT, JSON.stringify({ value: value }), { headers: this.headers })
-            .toPromise()
-            .then(function (res) { return res.json().data; })
-            .catch(this.handleError);
+    RegistrationService.prototype.setListener = function (listener) {
+        this.listener = listener;
+    };
+    RegistrationService.prototype.registerUser = function (user) {
+        this.http.post(this.registerUrl, JSON.stringify(user), null).toPromise().then(this.onRegReturn);
+    };
+    RegistrationService.prototype.onRegReturn = function (res) {
+        if (res.ok) {
+            if (this.listener) {
+                this.listener.onUserRegister();
+            }
+        }
+    };
+    RegistrationService.prototype.startGoogleAuth = function () {
+        var _this = this;
+        //this.oauthService.initImplicitFlow();
+        var loopCount = this.loopCount;
+        this.windowHandle = this.windows.createWindow(this.oAuthTokenUrl, 'OAuth2 Login');
+        this.intervalId = setInterval(function () {
+            if (loopCount-- < 0) {
+                clearInterval(_this.intervalId);
+                _this.emitAuthStatus(false);
+                _this.windowHandle.close();
+            }
+            else {
+                var href;
+                try {
+                    href = _this.windowHandle.location.href;
+                }
+                catch (e) {
+                }
+                if (href != null) {
+                    var re = /access_token=(.*)/;
+                    var found = href.match(re);
+                    if (found) {
+                        console.log("Callback URL:", href);
+                        clearInterval(_this.intervalId);
+                        var parsed = _this.parse(href.substr(_this.oAuthCallbackUrl.length + 1));
+                        console.log("Parsed:", parsed);
+                        var expiresSeconds = Number(parsed.expires_in) || 1800;
+                        _this.token = parsed.access_token;
+                        if (_this.token) {
+                            _this.saveTokenToCookies();
+                            _this.authenticated = true;
+                            _this.startExpiresTimer(expiresSeconds);
+                            _this.expires = new Date();
+                            _this.expires = _this.expires.setSeconds(_this.expires.getSeconds() + expiresSeconds);
+                            _this.windowHandle.close();
+                            _this.emitAuthStatus(true);
+                            _this.fetchUserInfo();
+                        }
+                        else {
+                            _this.authenticated = false; // we got the login callback just fine, but there was no token
+                            _this.emitAuthStatus(false); // so we are still going to fail the login
+                        }
+                    }
+                    else {
+                        // http://localhost:3000/auth/callback#error=access_denied
+                        if (href.indexOf(_this.oAuthCallbackUrl) == 0) {
+                            clearInterval(_this.intervalId);
+                            var parsed = _this.parse(href.substr(_this.oAuthCallbackUrl.length + 1));
+                            _this.windowHandle.close();
+                            _this.emitAuthStatusError(false, parsed);
+                        }
+                    }
+                }
+            }
+        }, this.intervalLength);
+    };
+    RegistrationService.prototype.saveTokenToCookies = function () {
+        Cookies.set(this.ckTokenName, this.token, { secure: true });
+    };
+    RegistrationService.prototype.onUserParsed = function () {
+        console.log("User Info:", JSON.stringify(this.userInfo));
+        if (this.listener) {
+            this.listener.onUserLogin(this.userInfo);
+        }
+    };
+    RegistrationService.prototype.doLogout = function () {
+        this.authenticated = false;
+        this.expiresTimerId = null;
+        this.expires = 0;
+        this.token = null;
+        this.emitAuthStatus(true);
+        console.log('Session has been cleared');
+    };
+    RegistrationService.prototype.emitAuthStatus = function (success) {
+        this.emitAuthStatusError(success, null);
+    };
+    RegistrationService.prototype.emitAuthStatusError = function (success, error) {
+        this.locationWatcher.emit({
+            success: success,
+            authenticated: this.authenticated,
+            token: this.token,
+            expires: this.expires,
+            error: error
+        });
+    };
+    RegistrationService.prototype.getSession = function () {
+        return { authenticated: this.authenticated, token: this.token, expires: this.expires };
+    };
+    RegistrationService.prototype.fetchUserInfo = function () {
+        var _this = this;
+        if (this.token != null) {
+            var headers = new http_1.Headers();
+            headers.append('Authorization', "Bearer " + this.token);
+            //noinspection TypeScriptUnresolvedFunction
+            this.http.get(this.oAuthUserUrl, { headers: headers })
+                .map(function (res) { return res.json(); })
+                .subscribe(function (info) {
+                _this.userInfo = info;
+                _this.onUserParsed();
+            }, function (err) {
+                console.error("Failed to fetch user info:", err);
+            });
+        }
+    };
+    RegistrationService.prototype.getUserInfo = function () {
+        return this.userInfo;
+    };
+    RegistrationService.prototype.getUserName = function () {
+        return this.userInfo ? this.userInfo[this.oAuthUserNameField] : null;
+    };
+    RegistrationService.prototype.startExpiresTimer = function (seconds) {
+        var _this = this;
+        if (this.expiresTimerId != null) {
+            clearTimeout(this.expiresTimerId);
+        }
+        this.expiresTimerId = setTimeout(function () {
+            console.log('Session has expired');
+            _this.doLogout();
+        }, seconds * 1000); // seconds * 1000
+        console.log('Token expiration timer set for', seconds, "seconds");
+    };
+    RegistrationService.prototype.subscribe = function (onNext, onThrow, onReturn) {
+        return this.locationWatcher.subscribe(onNext, onThrow, onReturn);
+    };
+    RegistrationService.prototype.isAuthenticated = function () {
+        return this.authenticated;
+    };
+    RegistrationService.prototype.parse = function (str) {
+        if (typeof str !== 'string') {
+            return {};
+        }
+        str = str.trim().replace(/^(\?|#|&)/, '');
+        if (!str) {
+            return {};
+        }
+        return str.split('&').reduce(function (ret, param) {
+            var parts = param.replace(/\+/g, ' ').split('=');
+            // Firefox (pre 40) decodes `%3D` to `=`
+            // https://github.com/sindresorhus/query-string/pull/37
+            var key = parts.shift();
+            var val = parts.length > 0 ? parts.join('=') : undefined;
+            key = decodeURIComponent(key);
+            // missing `=` should be `null`:
+            // http://w3.org/TR/2012/WD-url-20120524/#collect-url-parameters
+            val = val === undefined ? null : decodeURIComponent(val);
+            if (!ret.hasOwnProperty(key)) {
+                ret[key] = val;
+            }
+            else if (Array.isArray(ret[key])) {
+                ret[key].push(val);
+            }
+            else {
+                ret[key] = [ret[key], val];
+            }
+            return ret;
+        }, {});
+    };
+    ;
+    // register(value: User): Promise<User> {
+    //     let body = JSON.stringify({ "username": value.username, "password": value.password });
+    //     return this.http.post(UrlUtil.REGISTER_ACCOUNT, body, { headers: this.headers })
+    //         .toPromise()
+    //         .then(this.extractData)
+    //         .catch(this.handleError);
+    // }
+    RegistrationService.prototype.extractData = function (res) {
+        var body = res.json();
+        return body.data || {};
     };
     RegistrationService.prototype.handleError = function (error) {
-        console.error('An error occurred', error); // for demo purposes only
-        return Promise.reject(error.message || error);
+        var errMsg = (error.message) ? error.message :
+            error.status ? error.status + " - " + error.statusText : 'Server error';
+        console.error(errMsg); // better use external log system
+        return Promise.reject(errMsg);
     };
     RegistrationService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http])
+        __metadata('design:paramtypes', [window_service_1.WindowService, http_1.Http])
     ], RegistrationService);
     return RegistrationService;
 }());
