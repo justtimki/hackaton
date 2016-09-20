@@ -1,9 +1,9 @@
 {
-  "callbackUrl": "http://localhost:3000/auth/callback",
+  "callbackUrl": "https://localhost:3000/auth/callback",
   "userInfoUrl": "https://www.googleapis.com/plus/v1/people/me",
   "userInfoNameField": "displayName",
   "implicitGrantUrl": "https://accounts.google.com/o/oauth2/auth?redirect_uri=__callbackUrl__&response_type=token&client_id=__clientId__&scope=__scopes__",
   "clientId": "277371539396-5csdp727td6lng3ec9b94j8ssa87r1se.apps.googleusercontent.com",
   "scopes": "https://www.googleapis.com/auth/userinfo.profile",
-  "restRegister": "http://localhost:8080/register"
+  "restRegister": "https://localhost:8080/register"
 }

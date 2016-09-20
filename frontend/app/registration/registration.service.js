@@ -130,13 +130,13 @@ var RegistrationService = (function () {
         }
     };
     RegistrationService.prototype.saveTokenToCookies = function () {
-        Cookies.set(this.ckTokenName, this.token, { expires: 7 /*, secure: true*/ });
+        Cookies.set(this.ckTokenName, this.token, { expires: 14, secure: true });
     };
     RegistrationService.prototype.getTokenFromCookies = function () {
         return Cookies.get(this.ckTokenName /*, {secure: true}*/);
     };
     RegistrationService.prototype.saveUserToCookies = function () {
-        Cookies.set(this.ckUserInfoName, JSON.stringify(this.userInfo), { expires: 7 });
+        Cookies.set(this.ckUserInfoName, JSON.stringify(this.userInfo), { expires: 14 });
     };
     RegistrationService.prototype.restoreUserFromCookies = function () {
         var userInfoString = Cookies.get(this.ckUserInfoName);

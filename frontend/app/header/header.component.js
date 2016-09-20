@@ -27,7 +27,7 @@ var HeaderComponent = (function () {
     };
     HeaderComponent.prototype.logoutGoogle = function () {
         this.registrationService.doLogout();
-        this.authenticated = true;
+        this.authenticated = false;
         this.username = null;
         this.userInfo = null;
         this.userPortraitUrl = null;

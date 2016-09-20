@@ -145,7 +145,7 @@ export class RegistrationService {
     }
 
     private saveTokenToCookies() {
-        Cookies.set(this.ckTokenName, this.token, { expires: 7/*, secure: true*/ });
+        Cookies.set(this.ckTokenName, this.token, { expires: 14, secure: true });
     }
 
     private getTokenFromCookies() {
@@ -153,7 +153,7 @@ export class RegistrationService {
     }
 
     private saveUserToCookies() {
-        Cookies.set(this.ckUserInfoName, JSON.stringify(this.userInfo), {expires: 7});
+        Cookies.set(this.ckUserInfoName, JSON.stringify(this.userInfo), {expires: 14});
     }
 
     private restoreUserFromCookies() {

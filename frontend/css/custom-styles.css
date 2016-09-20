@@ -90,3 +90,11 @@ button.card-button {
 header .uui-header .user-profile {
     float: right;
 }
+
+#loginProgress {
+    text-align: center; margin-top: 12px;
+}
+
+.color-blue {
+    color: #1A9CB0;
+}
