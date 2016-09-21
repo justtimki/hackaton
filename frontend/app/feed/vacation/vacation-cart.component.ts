@@ -4,6 +4,8 @@ import { VacationService } from './vacation.service';
 import { Vacation } from '../../domain/vacation';
 import * as Collections from 'typescript-collections';
 
+declare var componentHandler: any;
+
 @Component({
     selector: 'vacation-cart',
     templateUrl: 'app/feed/vacation/vacation-cart.template.html',
@@ -18,6 +20,8 @@ export class VacationCartComponent implements OnInit {
 
     ngOnInit() {
         this.getVacations();
+
+        componentHandler.upgradeElement(document.getElementById("addVacFAB"));
     }
 
     getVacations() {

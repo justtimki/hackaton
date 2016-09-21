@@ -53,7 +53,8 @@ var HeaderComponent = (function () {
     };
     HeaderComponent.prototype.ngAfterViewInit = function () {
         UUI.Header_Tools.init();
-        this.registrationService.tryLogin();
+        var user = this.registrationService.tryLogin();
+        this.onUserLogin(user);
     };
     HeaderComponent = __decorate([
         core_1.Component({

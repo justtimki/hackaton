@@ -10,12 +10,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var vacation_cart_component_1 = require("./feed/vacation/vacation-cart.component");
+var add_vacation_component_1 = require("./add-vacation/add-vacation.component");
 var registration_component_1 = require("./registration/registration.component");
 var profile_component_1 = require("./profile/profile.component");
 var router_1 = require('@angular/router');
 var appRoutes = [
     { path: '', redirectTo: 'vacations', pathMatch: 'full' },
     { path: 'vacations', component: vacation_cart_component_1.VacationCartComponent, useAsDefault: true },
+    { path: 'add-vacation', component: add_vacation_component_1.AddVacationComponent },
     { path: 'my', component: registration_component_1.RegistrationFormComponent },
     { path: 'profile', component: profile_component_1.ProfileComponent }
 ];

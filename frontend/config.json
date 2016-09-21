@@ -1,5 +1,5 @@
 {
-  "callbackUrl": "https://localhost:3000/auth/callback",
+  "callbackUrl": "http://localhost:3000/auth/callback",
   "userInfoUrl": "https://www.googleapis.com/plus/v1/people/me",
   "userInfoNameField": "displayName",
   "implicitGrantUrl": "https://accounts.google.com/o/oauth2/auth?redirect_uri=__callbackUrl__&response_type=token&client_id=__clientId__&scope=__scopes__",
