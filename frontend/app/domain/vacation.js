@@ -1,6 +1,7 @@
 "use strict";
 var Vacation = (function () {
-    function Vacation(id, owner, members, title, description, beginDate, endDate, tags, estimatedCost, minMembers, status, plannedActivities, comments, gallery) {
+    function Vacation(id, owner, members, title, description, beginDate, endDate, tags, estimatedCost, minMembers, status, plannedActivities, comments, gallery, titleImg //change to Image 
+        ) {
         this.id = id;
         this.owner = owner;
         this.members = members;
@@ -15,6 +16,7 @@ var Vacation = (function () {
         this.plannedActivities = plannedActivities;
         this.comments = comments;
         this.gallery = gallery;
+        this.titleImg = titleImg;
     }
     return Vacation;
 }());
