@@ -1,0 +1,6 @@
+enum Role {
+    ROLE_ANONYMOUS,
+    ROLE_GENERIC_USER,
+    ROLE_USER,
+    ROLE_ADMIN
+}

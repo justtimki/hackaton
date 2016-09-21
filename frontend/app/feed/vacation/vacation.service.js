@@ -10,14 +10,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
-var vacation_1 = require('../../domain/vacation');
+var Observable_1 = require('rxjs/Observable');
+var url_util_1 = require('../../utils/url.util');
 var VacationService = (function () {
     function VacationService(http) {
         this.http = http;
     }
-    VacationService.prototype.getVacation = function () {
-        var vacation = new vacation_1.Vacation("Trip to Egypt", "../../../img/vac_1.jpg", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.");
-        return vacation;
+    VacationService.prototype.getVacations = function () {
+        return this.http.get(url_util_1.UrlUtil.GET_ALL_VACATIONS)
+            .map(this.extractData)
+            .catch(this.handleError);
+    };
+    VacationService.prototype.extractData = function (res) {
+        var body = res.json();
+        return body || {};
+    };
+    VacationService.prototype.handleError = function (error) {
+        // we might use a remote logging
+        var errMsg = (error.message) ? error.message :
+            error.status ? error.status + " - " + error.statusText : 'Server error';
+        console.error(errMsg); // log to console instead
+        return Observable_1.Observable.throw(errMsg);
     };
     VacationService = __decorate([
         core_1.Injectable(), 

@@ -1,8 +1,11 @@
 "use strict";
 var User = (function () {
-    function User(username, password) {
-        this.username = username;
-        this.password = password;
+    function User(firstName, lastName, skype, phone, avatar) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.skype = skype;
+        this.phone = phone;
+        this.avatar = avatar;
     }
     return User;
 }());

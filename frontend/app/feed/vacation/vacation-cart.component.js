@@ -13,9 +13,17 @@ var vacation_service_1 = require('./vacation.service');
 var VacationCartComponent = (function () {
     function VacationCartComponent(vacationService) {
         this.vacationService = vacationService;
-        this.vacation = null;
-        this.vacation = this.vacationService.getVacation();
+        this.vacations = null;
+        this.errorMsg = null;
     }
+    VacationCartComponent.prototype.ngOnInit = function () {
+        this.getVacations();
+    };
+    VacationCartComponent.prototype.getVacations = function () {
+        var _this = this;
+        this.vacationService.getVacations().
+            subscribe(function (vacations) { return _this.vacations = vacations; }, function (error) { return _this.errorMsg = error; });
+    };
     VacationCartComponent = __decorate([
         core_1.Component({
             selector: 'vacation-cart',

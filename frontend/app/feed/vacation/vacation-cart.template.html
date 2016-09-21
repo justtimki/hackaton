@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="row">
+    <div class="row" *ngFor="let vacation of vacations">
         <div class="col-md-8">
             <div class="card card-big">
                 <div [ngStyle]="{'background-image': 'url(' + vacation.imgLink + ')'}" class="card-image"></div>

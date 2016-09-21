@@ -5,8 +5,8 @@ import { RegistrationFormComponent } from "./registration/registration.component
 import { Routes, RouterModule }   from '@angular/router';
 
 const appRoutes = [
-    { path: '', redirectTo: 'all', pathMatch: 'full'},
-    { path: 'all', component: VacationCartComponent, useAsDefault: true},
+    { path: '', redirectTo: 'vacations', pathMatch: 'full'},
+    { path: 'vacations', component: VacationCartComponent, useAsDefault: true},
     { path: 'my', component: RegistrationFormComponent }
 ];
 
