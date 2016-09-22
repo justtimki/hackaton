@@ -5,7 +5,7 @@ import { Activity } from './activity';
 
 export class Vacation {
     constructor(
-    public id: String,
+    public id: number,
     public owner: User,
     public members: User[],
     public title: String,

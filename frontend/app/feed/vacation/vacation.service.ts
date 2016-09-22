@@ -22,25 +22,7 @@ export class VacationService {
         let i: number = 0;
         let vacations: Vacation[] = [];
         for (let vac of body) {
-            let id = vac.id;
-            let owner = vac.owner;
-            let members = vac.members;
-            let title = vac.title;
-            let description = vac.description;
-            let beginDate = vac.beginDate;
-            let endDate = vac.endDate;
-            let tags = vac.tags;
-            let estimatedCost = vac.estimatedCost;
-            let minMembers = vac.minMembers;
-            let status = vac.status;
-            let plannedActivities = vac.plannedActivities;
-            let comments = vac.comments;
-            let gallery = vac.gallery;
-            let titleImg = vac.titleImg;
-
-            vacations[i] = new Vacation(id, owner, members, title, description, beginDate, endDate, tags, estimatedCost,
-                minMembers, status, plannedActivities, comments, gallery, titleImg);
-
+            vacations[i] = JSON.parse(JSON.stringify(vac));
             i++;
         }
         return vacations || {};

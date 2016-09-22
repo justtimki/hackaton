@@ -10,7 +10,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
-var vacation_1 = require('../../domain/vacation');
 var Observable_1 = require('rxjs/Observable');
 var url_util_1 = require('../../utils/url.util');
 var VacationService = (function () {
@@ -28,22 +27,7 @@ var VacationService = (function () {
         var vacations = [];
         for (var _i = 0, body_1 = body; _i < body_1.length; _i++) {
             var vac = body_1[_i];
-            var id = vac.id;
-            var owner = vac.owner;
-            var members = vac.members;
-            var title = vac.title;
-            var description = vac.description;
-            var beginDate = vac.beginDate;
-            var endDate = vac.endDate;
-            var tags = vac.tags;
-            var estimatedCost = vac.estimatedCost;
-            var minMembers = vac.minMembers;
-            var status_1 = vac.status;
-            var plannedActivities = vac.plannedActivities;
-            var comments = vac.comments;
-            var gallery = vac.gallery;
-            var titleImg = vac.titleImg;
-            vacations[i] = new vacation_1.Vacation(id, owner, members, title, description, beginDate, endDate, tags, estimatedCost, minMembers, status_1, plannedActivities, comments, gallery, titleImg);
+            vacations[i] = JSON.parse(JSON.stringify(vac));
             i++;
         }
         return vacations || {};
