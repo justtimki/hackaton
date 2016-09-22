@@ -12,6 +12,10 @@ var core_1 = require('@angular/core');
 var AddVacationComponent = (function () {
     function AddVacationComponent() {
     }
+    AddVacationComponent.prototype.ngAfterViewInit = function () {
+        $('#pickerDateRange').uui_datepicker({ todayHighlight: true });
+        $('.fileinput').fileinput();
+    };
     AddVacationComponent = __decorate([
         core_1.Component({
             templateUrl: 'app/add-vacation/add-vacation.template.html',
