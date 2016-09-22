@@ -2,14 +2,37 @@ import { Injectable } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
 
 import { Vacation } from '../../domain/vacation';
+import { Observable } from 'rxjs/Observable';
+import { UrlUtil } from '../../utils/url.util';
+import { User } from '../../domain/user';
 
 @Injectable()
 export class VacationService {
 
     constructor(private http: Http) { }
 
-    public getVacation() {
-        let vacation: Vacation = new Vacation("Trip to Egypt", "../../../img/vac_1.jpg", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.");
-        return vacation;
+    public getVacations(): Observable<Vacation[]> {
+        return this.http.get(UrlUtil.GET_ALL_VACATIONS)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    private extractData(res: Response) {
+        let body = res.json();
+        let i: number = 0;
+        let vacations: Vacation[] = [];
+        for (let vac of body) {
+            vacations[i] = JSON.parse(JSON.stringify(vac));
+            i++;
+        }
+        return vacations || {};
+    }
+
+    private handleError(error: any) {
+        // we might use a remote logging
+        let errMsg = (error.message) ? error.message :
+            error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+        console.error(errMsg); // log to console instead
+        return Observable.throw(errMsg);
     }
 }

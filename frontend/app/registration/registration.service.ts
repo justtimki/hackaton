@@ -23,7 +23,7 @@ export class RegistrationService {
     private authenticated: boolean = false;
     private token: string;
     private expires: any = 0;
-    private userInfo: any = {};
+    private userInfo: any;
     private windowHandle: any = null;
     private intervalId: any = null;
     private expiresTimerId: any = null;
@@ -138,22 +138,22 @@ export class RegistrationService {
             this.authenticated = true;
             this.userInfo = this.restoreUserFromCookies();
 
-            if (this.listener) {
-                this.listener.onUserLogin(this.userInfo);
-            }
+            return this.userInfo;
+        } else {
+            return null;
         }
     }
 
     private saveTokenToCookies() {
-        Cookies.set(this.ckTokenName, this.token, { expires: 7/*, secure: true*/ });
+        Cookies.set(this.ckTokenName, this.token, { expires: 14/*, secure: true */});
     }
 
     private getTokenFromCookies() {
-        return Cookies.get(this.ckTokenName/*, {secure: true}*/);
+        return Cookies.get(this.ckTokenName);
     }
 
     private saveUserToCookies() {
-        Cookies.set(this.ckUserInfoName, JSON.stringify(this.userInfo), {expires: 7});
+        Cookies.set(this.ckUserInfoName, JSON.stringify(this.userInfo), {expires: 14});
     }
 
     private restoreUserFromCookies() {
@@ -167,7 +167,7 @@ export class RegistrationService {
 
     private clearCookies() {
         Cookies.remove(this.ckTokenName);
-        Cookies.remove(this.ckUserInfoName, { secure: true });
+        Cookies.remove(this.ckUserInfoName, { /*secure: true*/ });
     }
 
     private onUserParsed() {

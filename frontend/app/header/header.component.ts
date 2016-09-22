@@ -32,7 +32,7 @@ export class HeaderComponent {
 
     logoutGoogle() {
         this.registrationService.doLogout();
-        this.authenticated = true;
+        this.authenticated = false;
         this.username = null;
         this.userInfo = null;
         this.userPortraitUrl = null;
@@ -63,7 +63,8 @@ export class HeaderComponent {
     ngAfterViewInit() {
         UUI.Header_Tools.init();
 
-        this.registrationService.tryLogin();
+        let user = this.registrationService.tryLogin();
+        this.onUserLogin(user);
     }
 }
 

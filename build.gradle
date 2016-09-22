@@ -22,6 +22,8 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.boot:spring-boot-starter-security'
     compile 'org.mongodb:mongo-java-driver:3.3.0'
+    compile 'org.springframework.data:spring-data-mongodb:1.9.2.RELEASE'
+    compileOnly 'org.projectlombok:lombok:1.16.10'
 }
 
 repositories {

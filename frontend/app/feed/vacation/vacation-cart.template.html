@@ -1,13 +1,18 @@
+<button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" id="addVacFAB" routerLink="/add-vacation">
+    <i class="material-icons">add</i>
+</button>
 <div class="container">
-    <div class="row">
-        <div class="col-md-8">
+    <div class="row" *ngFor="let vacation of vacations">
+        <div class="col-md-10">
             <div class="card card-big">
-                <div [ngStyle]="{'background-image': 'url(' + vacation.imgLink + ')'}" class="card-image"></div>
+                <div [ngStyle]="{'background-image': 'url(' + vacation.titleImg + ')'}" class="card-image"></div>
                 <h2 class="card-title">{{vacation.title}}</h2>
                 <p class="card-text">{{vacation.description}}</p>
                 <div class="card-action-bar">
-                    <button class="card-button">SHARE</button>
-                    <button class="card-button">LEARN MORE</button>
+                    <i class="fa fa-comment"><span>{{vacation.comments.length}}</span></i>
+                    <i class="fa fa-user"><span>{{vacation.members.length}}</span></i>
+                    <a>{{vacation.owner.firstName}}</a>
+                    <button class="card-button">MORE</button>
                 </div>
             </div>
         </div>
