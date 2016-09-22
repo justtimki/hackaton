@@ -1,32 +1,28 @@
 package com.epam.k.service;
 
-import com.mongodb.client.MongoDatabase;
+import com.epam.k.dao.ImageDAO;
+import com.epam.k.domain.Image;
 import org.bson.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ImageService extends BaseMongoService {
-    private static final String MONGO_COLLECTION = "image";
+public class ImageService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ImageService.class);
 
     @Autowired
-    public ImageService(MongoDatabase mongoDatabase) {
-        super(mongoDatabase, MONGO_COLLECTION);
+    private ImageDAO imageDAO;
+
+    public Image save(final Image image){
+        LOG.debug("Saving image with name {} to DB", image.getAltText());
+        return imageDAO.save(image);
     }
 
-    public String getAlt(Document image) {
-        return image.getString("alt");
-    }
-
-    public void setAlt(Document image, String alt) {
-        image.put("alt", alt);
-    }
-
-    public String getExt(Document image) {
-        return image.getString("ext");
-    }
-
-    public void setExt(Document image, String ext) {
-        image.put("ext", ext);
+    public Image findById(final String id) {
+        LOG.debug("Request to find image with id {}", id);
+        return imageDAO.findOne(id);
     }
 }
