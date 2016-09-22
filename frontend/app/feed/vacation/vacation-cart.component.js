@@ -18,6 +18,7 @@ var VacationCartComponent = (function () {
     }
     VacationCartComponent.prototype.ngOnInit = function () {
         this.getVacations();
+        componentHandler.upgradeElement(document.getElementById("addVacFAB"));
     };
     VacationCartComponent.prototype.getVacations = function () {
         var _this = this;

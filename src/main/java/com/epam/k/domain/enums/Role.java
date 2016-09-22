@@ -1,4 +1,4 @@
-package com.epam.k.domain;
+package com.epam.k.domain.enums;
 
 import org.springframework.security.core.GrantedAuthority;
 

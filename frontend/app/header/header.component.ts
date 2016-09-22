@@ -63,7 +63,8 @@ export class HeaderComponent {
     ngAfterViewInit() {
         UUI.Header_Tools.init();
 
-        this.registrationService.tryLogin();
+        let user = this.registrationService.tryLogin();
+        this.onUserLogin(user);
     }
 }
 

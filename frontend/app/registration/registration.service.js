@@ -24,7 +24,6 @@ var RegistrationService = (function () {
         this.ckUserInfoName = "userInfoJSON";
         this.authenticated = false;
         this.expires = 0;
-        this.userInfo = {};
         this.windowHandle = null;
         this.intervalId = null;
         this.expiresTimerId = null;
@@ -124,16 +123,17 @@ var RegistrationService = (function () {
         if (tokenSaved) {
             this.authenticated = true;
             this.userInfo = this.restoreUserFromCookies();
-            if (this.listener) {
-                this.listener.onUserLogin(this.userInfo);
-            }
+            return this.userInfo;
+        }
+        else {
+            return null;
         }
     };
     RegistrationService.prototype.saveTokenToCookies = function () {
-        Cookies.set(this.ckTokenName, this.token, { expires: 14, secure: true });
+        Cookies.set(this.ckTokenName, this.token, { expires: 14 /*, secure: true */ });
     };
     RegistrationService.prototype.getTokenFromCookies = function () {
-        return Cookies.get(this.ckTokenName /*, {secure: true}*/);
+        return Cookies.get(this.ckTokenName);
     };
     RegistrationService.prototype.saveUserToCookies = function () {
         Cookies.set(this.ckUserInfoName, JSON.stringify(this.userInfo), { expires: 14 });
@@ -149,7 +149,7 @@ var RegistrationService = (function () {
     };
     RegistrationService.prototype.clearCookies = function () {
         Cookies.remove(this.ckTokenName);
-        Cookies.remove(this.ckUserInfoName, { secure: true });
+        Cookies.remove(this.ckUserInfoName, {});
     };
     RegistrationService.prototype.onUserParsed = function () {
         console.log("User Info:", JSON.stringify(this.userInfo));

@@ -10,10 +10,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var registration_service_1 = require('../registration/registration.service');
+/*import { Router }   from '@angular/router';*/
 var ProfileComponent = (function () {
-    function ProfileComponent(registrationService) {
+    function ProfileComponent(registrationService /*, private router: Router*/) {
         this.registrationService = registrationService;
+        this.authenticated = false;
+        var user = this.registrationService.tryLogin();
+        if (!user) {
+            //alert("Error getting user info");
+            return;
+        }
+        this.authenticated = true;
+        this.userInfo = user;
+        this.userPortraitUrl = this.resizeImageUrl(this.userInfo.image.url, 100);
+        this.username = this.userInfo.displayName;
     }
+    ProfileComponent.prototype.ngAfterViewInit = function () {
+    };
+    ProfileComponent.prototype.resizeImageUrl = function (str, size) {
+        return str.replace(/\?sz=\d+/g, "?sz=" + size);
+    };
     ProfileComponent = __decorate([
         core_1.Component({
             //selector: 'header-login',

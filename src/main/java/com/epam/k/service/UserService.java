@@ -1,54 +1,45 @@
 package com.epam.k.service;
 
+import com.epam.k.dao.UserDAO;
 import com.epam.k.domain.User;
-import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.IndexOptions;
-import org.bson.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
-import static com.mongodb.client.model.Filters.eq;
-
 @Service
-public class UserService extends BaseMongoService {
+public class UserService {
 
-    private static final String MONGO_COLLECTION = "user";
-
-    @Autowired
-    public UserService(MongoDatabase mongoDatabase) {
-        super(mongoDatabase, MONGO_COLLECTION);
-    }
+    private final static Logger LOG = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Override
-    public void initCollection() {
-        mongoCollection.createIndex(new Document("username", 1), new IndexOptions().unique(true));
+    @Autowired
+    private UserDAO userDAO;
+
+    public User save(final User user) {
+        LOG.debug("Saving user '{}'", user.getUsername());
+        return userDAO.save(user);
     }
 
-    public User findByUsername(String username) {
-        Document document = username == null ? null : mongoCollection.find(eq("username", username.toLowerCase())).first();
-        return document == null ? null : new User(document);
+    public User findByUsername(final String username) {
+        LOG.debug("Requesting user '{}' from DB", username);
+        if (username == null) {
+            return null;
+        }
+        return userDAO.findByUsername(username);
     }
 
-    @SuppressWarnings("unchecked")
-    public List<Document> getVacations(Document user) {
-        return user.get("vacations", List.class);
+    public void setEncodedPassword(final User user, final String password) {
+        LOG.debug("Setting encoded password to user '{}'", user);
+        user.setPassword(passwordEncoder.encode(password));
     }
 
-    public void setUsername(Document user, String username) {
-        user.put("username", username);
-    }
-
-    public String getUsername(Document user) {
-        return user.getString("username");
-    }
-
-    public void setPassword(Document user, String password) {
-        user.put("passwordHash", passwordEncoder.encode(password));
+    public void updateUserPassword(final User user, final String password) {
+        LOG.debug("Updating user '{}' password", user);
+        user.setPassword(passwordEncoder.encode(password));
+        userDAO.save(user);
     }
 }
