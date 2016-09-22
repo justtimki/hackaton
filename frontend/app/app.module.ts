@@ -11,6 +11,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { OAuthService } from "angular2-oauth2/oauth-service";
 import { VacationCartComponent } from "./feed/vacation/vacation-cart.component";
 import {WindowService} from "./registration/window.service";
+import { FooterComponent } from "./footer/main-footer.component";
 
 @NgModule({
   imports:      [ 
@@ -19,7 +20,7 @@ import {WindowService} from "./registration/window.service";
     HttpModule,
     routing
 ],
-  declarations: [ AppComponent, VacationCartComponent, SidebarComponent, HeaderComponent, ProfileComponent ],
+  declarations: [ AppComponent, VacationCartComponent, SidebarComponent, HeaderComponent, ProfileComponent, FooterComponent ],
   bootstrap:    [ AppComponent ],
   providers:    [ OAuthService, WindowService, appRoutingProviders ]
 })
