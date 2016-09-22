@@ -81,15 +81,38 @@ footer {
 .card-button {
     outline: none;
     position: relative;
-    display: inline-block;
-    line-height: 52px;
-    padding: 0 16px;
     color: #39C2D7;
+    float: right;
+    padding: 10px 30px;
+    margin-top: 7px;
+    color: #1A9CB0;
 }
+
+.card-action-bar .fa {
+     padding: 25px 15px;
+     color: #1A9CB0;
+ }
+ 
+ .card-action-bar .fa > span {
+     padding-left: 5px;
+ }
+ 
+ .card-action-bar > a {
+     text-decoration: underline;
+     text-transform: lowercase;
+     color: #1A9CB0;
+     
+ }
 
 button.card-button {
     border: none;
-    background: transparent;
+    background: rgba(236,239,241,0.87);
+}
+
+button.card-button:hover {
+    background: #ECEFF1;
+    box-shadow: 0 2px 2px rgba(0,0,0,0.24),0 0 2px rgba(0,0,0,0.12);
+    color: #39C2D7;
 }
 
 #addVacFAB {
@@ -97,6 +120,7 @@ button.card-button {
     right: calc(15% - 52px);
     bottom: 152px;
     background: #E4445F;
+    z-index: 100;
 }
 
 header .uui-header .user-profile {
